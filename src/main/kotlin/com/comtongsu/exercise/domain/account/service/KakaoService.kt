@@ -6,6 +6,7 @@ import com.comtongsu.exercise.domain.account.exception.KakaoAccountNotFoundExcep
 import com.comtongsu.exercise.domain.account.repository.AccountRepository
 import io.netty.handler.codec.http.HttpHeaderValues
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpHeaders
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -67,5 +68,10 @@ class KakaoService(
         if (accountRepository.existsById(id)) return
 
         accountRepository.save(Account.createAccount(id))
+    }
+
+    fun getAccountFromAccessToken(accessToken: String): Account {
+        val id = getUserInfoFromKakao(accessToken)
+        return accountRepository.findByIdOrNull(id) ?: throw KakaoAccountNotFoundException()
     }
 }

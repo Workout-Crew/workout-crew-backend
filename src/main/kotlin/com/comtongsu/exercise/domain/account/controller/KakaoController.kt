@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/kakao")
-@Tag(name = "Account", description = "KAKAO API")
+@Tag(name = "Kakao", description = "KAKAO API")
 class KakaoController(private val kakaoService: KakaoService) {
 
     // https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}
