@@ -4,6 +4,7 @@ import com.comtongsu.exercise.domain.account.dto.request.AccountRequestDto
 import com.comtongsu.exercise.domain.account.entity.enums.Goal
 import com.comtongsu.exercise.domain.account.entity.enums.Sex
 import com.comtongsu.exercise.domain.board.entity.Comment
+import com.comtongsu.exercise.domain.exerciseRecommendation.entity.ExerciseRecommendation
 import com.comtongsu.exercise.domain.gathering.AccountGathering
 import com.comtongsu.exercise.domain.medal.entity.AccountMedal
 import jakarta.persistence.*
@@ -11,18 +12,19 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "account")
 class Account(
-        @Id var id: Long = 0,
-        var nickname: String? = null,
-        var height: Int? = null,
-        var weight: Int? = null,
-        var age: Int? = null,
-        @Enumerated(EnumType.STRING) var sex: Sex? = null,
-        @Column(name = "body_fat") var bodyFat: Int? = null,
-        @Column(name = "muscle_percentage") var musclePercentage: Int? = null,
-        @Enumerated(EnumType.STRING) var goal: Goal? = null,
-        @OneToMany(mappedBy = "account") var medalList: MutableList<AccountMedal> = mutableListOf(),
-        @OneToMany(mappedBy = "account") var commentList: MutableList<Comment> = mutableListOf(),
-        @OneToMany(mappedBy = "account")
+    @Id var id: Long = 0,
+    var nickname: String? = null,
+    var height: Int? = null,
+    var weight: Int? = null,
+    var age: Int? = null,
+    @Enumerated(EnumType.STRING) var sex: Sex? = null,
+    @Column(name = "body_fat") var bodyFat: Int? = null,
+    @Column(name = "muscle_percentage") var musclePercentage: Int? = null,
+    @Enumerated(EnumType.STRING) var goal: Goal? = null,
+    @OneToMany(mappedBy = "account") var exerciseRecommendationList: MutableList<ExerciseRecommendation> = mutableListOf(),
+    @OneToMany(mappedBy = "account") var medalList: MutableList<AccountMedal> = mutableListOf(),
+    @OneToMany(mappedBy = "account") var commentList: MutableList<Comment> = mutableListOf(),
+    @OneToMany(mappedBy = "account")
         var gatheringList: MutableList<AccountGathering> = mutableListOf(),
 ) {
     companion object {

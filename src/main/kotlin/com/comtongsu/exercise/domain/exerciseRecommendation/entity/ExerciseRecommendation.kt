@@ -1,6 +1,7 @@
 package com.comtongsu.exercise.domain.exerciseRecommendation.entity
 
 import com.comtongsu.exercise.domain.account.entity.Account
+import com.comtongsu.exercise.global.common.BaseEntity
 import com.comtongsu.exercise.global.enums.ExerciseType
 import jakarta.persistence.*
 
@@ -17,4 +18,4 @@ class ExerciseRecommendation(
                 nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var account: Account? = null,
-)
+): BaseEntity()
