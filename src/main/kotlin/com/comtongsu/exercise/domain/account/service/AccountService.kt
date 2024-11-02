@@ -2,7 +2,6 @@ package com.comtongsu.exercise.domain.account.service
 
 import com.comtongsu.exercise.domain.account.dto.request.AccountRequestDto
 import com.comtongsu.exercise.domain.account.entity.Account
-import com.comtongsu.exercise.domain.account.repository.AccountRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

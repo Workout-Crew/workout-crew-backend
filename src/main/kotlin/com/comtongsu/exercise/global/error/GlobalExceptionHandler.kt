@@ -35,7 +35,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException::class)
     protected fun handleEntityNotFoundException(
-        exception: EntityNotFoundException
+            exception: EntityNotFoundException
     ): ResponseEntity<ErrorResponse> {
         logger.error(exception.errorCode.code, exception)
         val errorCode = exception.errorCode

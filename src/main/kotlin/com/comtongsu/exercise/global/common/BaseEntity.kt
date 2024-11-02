@@ -13,8 +13,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 abstract class BaseEntity(
         @CreatedDate
         @Column(name = "created_date", nullable = false, updatable = false)
-        var createdDate: LocalDateTime,
+        var createdDate: LocalDateTime = LocalDateTime.now(),
         @LastModifiedDate
         @Column(name = "updated_date", nullable = false)
-        var updatedDate: LocalDateTime,
+        var updatedDate: LocalDateTime? = LocalDateTime.now(),
 )

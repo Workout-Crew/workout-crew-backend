@@ -9,19 +9,19 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class ExerciseRecommendationService(
-    private val kakaoService: KakaoService
-) {
-    fun getExerciseRecommendation(accessToken: String): ExerciseRecommendationResponseDto.ExerciseRecommendationResponse {
+class ExerciseRecommendationService(private val kakaoService: KakaoService) {
+    fun getExerciseRecommendation(
+            accessToken: String
+    ): ExerciseRecommendationResponseDto.ExerciseRecommendationResponse {
         val account: Account = kakaoService.getAccountFromAccessToken(accessToken)
 
-        val exerciseRecommendation = account.exerciseRecommendationList.maxByOrNull { it.createdDate }
-            ?: throw ExerciseRecommendationNotFoundException()
+        val exerciseRecommendation =
+                account.exerciseRecommendationList.maxByOrNull { it.createdDate }
+                        ?: throw ExerciseRecommendationNotFoundException()
 
         return ExerciseRecommendationResponseDto.ExerciseRecommendationResponse(
-            exerciseRecommendation.exerciseType,
-            exerciseRecommendation.intensity,
-            exerciseRecommendation.description
-        )
+                exerciseRecommendation.exerciseType,
+                exerciseRecommendation.intensity,
+                exerciseRecommendation.description)
     }
 }

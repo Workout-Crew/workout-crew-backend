@@ -10,21 +10,18 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-
 @RestController
 @RequestMapping("/api/exerciserecommendation")
 @Tag(name = "Exercise Recommendation", description = "EXERCISE RECOMMENDATION API")
 class ExerciseRecommendationController(
-    private val exerciseRecommendationService: ExerciseRecommendationService
+        private val exerciseRecommendationService: ExerciseRecommendationService
 ) {
     @GetMapping
     fun getExerciseRecommendation(
-        @RequestHeader accessToken: String
+            @RequestHeader accessToken: String
     ): ResponseEntity<ExerciseRecommendationResponseDto.ExerciseRecommendationResponse> {
 
         return ResponseEntity(
-            exerciseRecommendationService.getExerciseRecommendation(accessToken),
-            HttpStatus.OK
-        )
+                exerciseRecommendationService.getExerciseRecommendation(accessToken), HttpStatus.OK)
     }
 }
