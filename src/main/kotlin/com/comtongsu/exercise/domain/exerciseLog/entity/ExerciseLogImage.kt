@@ -10,4 +10,10 @@ class ExerciseLogImage(
         @JoinColumn(name = "exercise_log_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var exerciseLog: ExerciseLog? = null,
         @Column(name = "image_url") var imageUrl: String? = null,
-)
+) {
+    companion object {
+        fun createExerciseLogImage(exerciseLog: ExerciseLog, imageUrl: String): ExerciseLogImage {
+            return ExerciseLogImage(exerciseLog = exerciseLog, imageUrl = imageUrl)
+        }
+    }
+}

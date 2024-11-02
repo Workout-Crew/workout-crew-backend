@@ -8,5 +8,10 @@ enum class ErrorCode(val code: String, val message: String, var status: Int) {
 
     // Exercise Recommendation
     EXERCISE_RECOMMENDATION_NOT_FOUND(
-            "ER01", "Exercise Recommendation is not found.", HttpStatus.BAD_REQUEST.value())
+            "ER01", "Exercise Recommendation is not found.", HttpStatus.BAD_REQUEST.value()),
+
+    // S3
+    EMPTY_IMAGE("S01", "Image is empty.", HttpStatus.BAD_REQUEST.value()),
+    NOT_VALIDATE_FILE("S02", "File is not validated.", HttpStatus.BAD_REQUEST.value()),
+    PUT_IMAGE("S03", "Failed to put image.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
 }

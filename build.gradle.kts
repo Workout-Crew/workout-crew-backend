@@ -38,6 +38,9 @@ dependencies {
 
   // Dotenv
   implementation("me.paulschwarz:spring-dotenv:2.3.0")
+
+  // Spring-Cloud-Starter-Aws
+  implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
 }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {

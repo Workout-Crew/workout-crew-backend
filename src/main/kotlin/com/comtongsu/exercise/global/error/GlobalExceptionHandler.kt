@@ -2,7 +2,7 @@ package com.comtongsu.exercise.global.error
 
 import com.comtongsu.exercise.global.error.exception.BusinessException
 import com.comtongsu.exercise.global.error.exception.EntityNotFoundException
-import com.comtongsu.exercise.global.error.exception.ExternalApiException
+import com.comtongsu.exercise.global.error.exception.KakaoApiException
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,9 +23,9 @@ class GlobalExceptionHandler {
         return ResponseEntity(response, HttpStatus.valueOf(errorCode.status))
     }
 
-    @ExceptionHandler(ExternalApiException::class)
+    @ExceptionHandler(KakaoApiException::class)
     protected fun handleExternalApiException(
-            exception: ExternalApiException
+            exception: KakaoApiException
     ): ResponseEntity<ErrorResponse> {
         logger.error(exception.errorCode.code, exception)
         val errorCode = exception.errorCode
