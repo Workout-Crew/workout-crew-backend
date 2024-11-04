@@ -12,7 +12,7 @@ class AccountService(
 ) {
 
     @Transactional
-    fun createAccountInfo(accessToken: String, request: AccountRequestDto.AccountRequest): Unit {
+    fun createAccountInfo(accessToken: String, request: AccountRequestDto.AccountRequest) {
         val account: Account = kakaoService.getAccountFromAccessToken(accessToken)
         account.updateAccountInfo(request)
     }

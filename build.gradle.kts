@@ -4,6 +4,7 @@ plugins {
   id("org.springframework.boot") version "3.3.4"
   id("io.spring.dependency-management") version "1.1.6"
   id("com.diffplug.spotless").version("6.19.0")
+  kotlin("kapt") version "1.9.21"
 }
 
 group = "com.comtongsu"
@@ -13,6 +14,8 @@ version = "0.0.1-SNAPSHOT"
 java { toolchain { languageVersion = JavaLanguageVersion.of(17) } }
 
 repositories { mavenCentral() }
+
+val queryDslVersion: String by extra
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter")
@@ -41,6 +44,12 @@ dependencies {
 
   // Spring-Cloud-Starter-Aws
   implementation("org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE")
+
+  // QueryDsl
+  implementation("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+  kapt("com.querydsl:querydsl-apt:5.0.0:jakarta")
+  kapt("jakarta.annotation:jakarta.annotation-api")
+  kapt("jakarta.persistence:jakarta.persistence-api")
 }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {
@@ -59,6 +68,16 @@ configure<com.diffplug.gradle.spotless.SpotlessExtension> {
 }
 
 kotlin { compilerOptions { freeCompilerArgs.addAll("-Xjsr305=strict") } }
+
+val generated = file("src/main/generated")
+
+tasks.withType<JavaCompile> { options.generatedSourceOutputDirectory.set(generated) }
+
+sourceSets { main { kotlin.srcDirs += generated } }
+
+tasks.named("clean") { doLast { generated.deleteRecursively() } }
+
+kapt { generateStubs = true }
 
 allOpen {
   annotation("jakarta.persistence.Entity")

@@ -19,6 +19,7 @@ class ExerciseLog(
         var intensity: Int? = null,
         @Column(name = "start_time") var startTime: LocalDateTime? = null,
         @Column(name = "end_time") var endTime: LocalDateTime? = null,
+        var exerciseTime: Int? = null,
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(
                 name = "account_id",
@@ -31,7 +32,8 @@ class ExerciseLog(
     companion object {
         fun createExerciseLog(
                 account: Account,
-                request: ExerciseLogRequestDto.ExerciseLogRequest
+                exerciseTime: Int,
+                request: ExerciseLogRequestDto.ExerciseLogRequest,
         ): ExerciseLog {
             return ExerciseLog(
                     title = request.title,
@@ -40,6 +42,7 @@ class ExerciseLog(
                     intensity = request.intensity,
                     startTime = request.startTime,
                     endTime = request.endTime,
+                    exerciseTime = exerciseTime,
                     account = account)
         }
     }
