@@ -9,7 +9,7 @@ class ExerciseLogImage(
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "exercise_log_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var exerciseLog: ExerciseLog? = null,
-        @Column(name = "image_url") var imageUrl: String? = null,
+        @Column(name = "image_url") var imageUrl: String = "",
 ) {
     companion object {
         fun createExerciseLogImage(exerciseLog: ExerciseLog, imageUrl: String): ExerciseLogImage {

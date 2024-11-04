@@ -5,6 +5,7 @@ import com.comtongsu.exercise.domain.exerciseLog.dto.response.ExerciseLogRespons
 import com.comtongsu.exercise.domain.exerciseLog.service.ExerciseLogService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
+import java.time.LocalDate
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -32,5 +33,15 @@ class ExerciseLogController(private val exerciseLogService: ExerciseLogService) 
             @RequestHeader accessToken: String
     ): ResponseEntity<ExerciseLogResponseDto.TotalExerciseLogListResponse> {
         return ResponseEntity(exerciseLogService.getTotalExerciseLog(accessToken), HttpStatus.OK)
+    }
+
+    @Operation(summary = "날짜별 운동 기록 조회")
+    @GetMapping("/date/{currentDate}")
+    fun getExerciseLogByDate(
+            @RequestHeader accessToken: String,
+            @PathVariable currentDate: LocalDate
+    ): ResponseEntity<ExerciseLogResponseDto.ExerciseLogByDateListResponse> {
+        return ResponseEntity(
+                exerciseLogService.getExerciseLogByDate(accessToken, currentDate), HttpStatus.OK)
     }
 }

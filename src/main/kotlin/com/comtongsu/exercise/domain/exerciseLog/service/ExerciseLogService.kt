@@ -10,6 +10,7 @@ import com.comtongsu.exercise.domain.exerciseLog.repository.ExerciseLogImageRepo
 import com.comtongsu.exercise.domain.exerciseLog.repository.ExerciseLogRepository
 import com.comtongsu.exercise.global.s3.S3ImageService
 import java.time.Duration
+import java.time.LocalDate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
@@ -50,5 +51,30 @@ class ExerciseLogService(
 
         return ExerciseLogResponseDto.TotalExerciseLogListResponse(
                 exerciseLogDao.getTotalExerciseLog(account))
+    }
+
+    fun getExerciseLogByDate(
+            accessToken: String,
+            currentDate: LocalDate
+    ): ExerciseLogResponseDto.ExerciseLogByDateListResponse {
+        val account = kakaoService.getAccountFromAccessToken(accessToken)
+
+        return ExerciseLogResponseDto.ExerciseLogByDateListResponse(
+                toExerciseLogByDateList(exerciseLogDao.getExerciseLogByDate(account, currentDate)))
+    }
+
+    fun toExerciseLogByDateList(
+            exerciseLogList: List<ExerciseLog>
+    ): List<ExerciseLogResponseDto.ExerciseLogByDate> {
+        return exerciseLogList.map {
+            ExerciseLogResponseDto.ExerciseLogByDate(
+                    title = it.title,
+                    exerciseType = it.exerciseType,
+                    description = it.description,
+                    intensity = it.intensity,
+                    startTime = it.startTime,
+                    endTime = it.endTime,
+                    imageList = it.imageList.map { image -> image.imageUrl })
+        }
     }
 }
