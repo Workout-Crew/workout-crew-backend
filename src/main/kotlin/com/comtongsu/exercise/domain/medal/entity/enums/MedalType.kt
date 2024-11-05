@@ -1,7 +1,8 @@
 package com.comtongsu.exercise.domain.medal.entity.enums
 
 enum class MedalType {
-    NONE,
-    MAKING_GATHERING
-    // TODO: 추가 필요
+    WRITE_EXERCISE_LOG,
+    WRITE_GATHERING_EXERCISE_LOG,
+    MAKE_GATHERING,
+    WRITE_VARIOUS_EXERCISE_TYPE,
 }

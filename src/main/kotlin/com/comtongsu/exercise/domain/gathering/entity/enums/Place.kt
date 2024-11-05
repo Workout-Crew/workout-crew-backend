@@ -1,4 +1,4 @@
-package com.comtongsu.exercise.domain.gathering.enums
+package com.comtongsu.exercise.domain.gathering.entity.enums
 
 enum class Place {
     SEOUL,

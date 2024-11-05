@@ -22,5 +22,6 @@ class ExerciseLogResponseDto {
             val startTime: LocalDateTime?,
             val endTime: LocalDateTime?,
             val imageList: List<String>?,
+            val gatheringTitle: String?,
     )
 }

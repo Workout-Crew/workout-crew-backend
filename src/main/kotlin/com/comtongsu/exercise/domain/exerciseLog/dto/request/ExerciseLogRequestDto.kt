@@ -11,5 +11,6 @@ class ExerciseLogRequestDto {
             val endTime: LocalDateTime,
             val description: String?,
             val intensity: Int?,
+            val gatheringId: Long?,
     )
 }

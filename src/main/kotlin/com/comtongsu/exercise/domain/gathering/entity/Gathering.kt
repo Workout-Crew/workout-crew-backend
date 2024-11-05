@@ -1,6 +1,6 @@
-package com.comtongsu.exercise.domain.gathering
+package com.comtongsu.exercise.domain.gathering.entity
 
-import com.comtongsu.exercise.domain.gathering.enums.Place
+import com.comtongsu.exercise.domain.gathering.entity.enums.Place
 import com.comtongsu.exercise.global.common.BaseEntity
 import com.comtongsu.exercise.global.enums.ExerciseType
 import jakarta.persistence.*

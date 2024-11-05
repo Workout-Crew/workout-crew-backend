@@ -1,4 +1,4 @@
-package com.comtongsu.exercise.domain.gathering
+package com.comtongsu.exercise.domain.gathering.entity
 
 import com.comtongsu.exercise.domain.account.entity.Account
 import jakarta.persistence.*

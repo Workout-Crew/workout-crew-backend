@@ -5,7 +5,7 @@ import com.comtongsu.exercise.domain.account.entity.enums.Goal
 import com.comtongsu.exercise.domain.account.entity.enums.Sex
 import com.comtongsu.exercise.domain.board.entity.Comment
 import com.comtongsu.exercise.domain.exerciseRecommendation.entity.ExerciseRecommendation
-import com.comtongsu.exercise.domain.gathering.AccountGathering
+import com.comtongsu.exercise.domain.gathering.entity.AccountGathering
 import com.comtongsu.exercise.domain.medal.entity.AccountMedal
 import jakarta.persistence.*
 

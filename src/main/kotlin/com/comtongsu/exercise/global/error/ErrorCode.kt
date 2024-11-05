@@ -14,4 +14,7 @@ enum class ErrorCode(val code: String, val message: String, var status: Int) {
     EMPTY_IMAGE("S01", "Image is empty.", HttpStatus.BAD_REQUEST.value()),
     NOT_VALIDATE_FILE("S02", "File is not validated.", HttpStatus.BAD_REQUEST.value()),
     PUT_IMAGE("S03", "Failed to put image.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+
+    // Gathering
+    GATHERING_NOT_FOUND("G01", "Gathering is not found.", HttpStatus.BAD_REQUEST.value()),
 }

@@ -2,6 +2,8 @@ package com.comtongsu.exercise.domain.exerciseLog.entity
 
 import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.exerciseLog.dto.request.ExerciseLogRequestDto
+import com.comtongsu.exercise.domain.exerciseLog.dto.response.ExerciseLogResponseDto
+import com.comtongsu.exercise.domain.gathering.entity.Gathering
 import com.comtongsu.exercise.global.common.BaseEntity
 import com.comtongsu.exercise.global.enums.ExerciseType
 import jakarta.persistence.*
@@ -26,6 +28,9 @@ class ExerciseLog(
                 nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var account: Account? = null,
+        @ManyToOne(fetch = FetchType.LAZY)
+        @JoinColumn(name = "gathering_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
+        var gathering: Gathering? = null,
         @OneToMany(mappedBy = "exerciseLog")
         var imageList: MutableList<ExerciseLogImage> = mutableListOf(),
 ) : BaseEntity() {
@@ -33,6 +38,7 @@ class ExerciseLog(
         fun createExerciseLog(
                 account: Account,
                 exerciseTime: Int,
+                gathering: Gathering?,
                 request: ExerciseLogRequestDto.ExerciseLogRequest,
         ): ExerciseLog {
             return ExerciseLog(
@@ -43,7 +49,20 @@ class ExerciseLog(
                     startTime = request.startTime,
                     endTime = request.endTime,
                     exerciseTime = exerciseTime,
-                    account = account)
+                    account = account,
+                    gathering = gathering)
         }
+    }
+
+    fun toExerciseLogByDate(): ExerciseLogResponseDto.ExerciseLogByDate {
+        return ExerciseLogResponseDto.ExerciseLogByDate(
+                title = title,
+                exerciseType = exerciseType,
+                description = description,
+                intensity = intensity,
+                startTime = startTime,
+                endTime = endTime,
+                imageList = imageList.map { it.imageUrl },
+                gatheringTitle = gathering?.title)
     }
 }

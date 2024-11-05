@@ -8,6 +8,7 @@ import com.comtongsu.exercise.domain.exerciseLog.entity.ExerciseLog
 import com.comtongsu.exercise.domain.exerciseLog.entity.ExerciseLogImage
 import com.comtongsu.exercise.domain.exerciseLog.repository.ExerciseLogImageRepository
 import com.comtongsu.exercise.domain.exerciseLog.repository.ExerciseLogRepository
+import com.comtongsu.exercise.domain.gathering.service.GatheringService
 import com.comtongsu.exercise.global.s3.S3ImageService
 import java.time.Duration
 import java.time.LocalDate
@@ -23,6 +24,7 @@ class ExerciseLogService(
         private val exerciseLogImageRepository: ExerciseLogImageRepository,
         private val kakaoService: KakaoService,
         private val s3ImageService: S3ImageService,
+        private val gatheringService: GatheringService
 ) {
 
     @Transactional
@@ -34,7 +36,12 @@ class ExerciseLogService(
         val account = kakaoService.getAccountFromAccessToken(accessToken)
         val exerciseTime: Int = Duration.between(request.startTime, request.endTime).toHours().toInt()
 
-        val exerciseLog = ExerciseLog.createExerciseLog(account, exerciseTime, request)
+        val exerciseLog =
+                ExerciseLog.createExerciseLog(
+                        account,
+                        exerciseTime,
+                        request.gatheringId?.let { gatheringService.getGatheringById(it) },
+                        request)
         exerciseLogRepository.save(exerciseLog)
 
         imageList?.forEach {
@@ -60,21 +67,6 @@ class ExerciseLogService(
         val account = kakaoService.getAccountFromAccessToken(accessToken)
 
         return ExerciseLogResponseDto.ExerciseLogByDateListResponse(
-                toExerciseLogByDateList(exerciseLogDao.getExerciseLogByDate(account, currentDate)))
-    }
-
-    fun toExerciseLogByDateList(
-            exerciseLogList: List<ExerciseLog>
-    ): List<ExerciseLogResponseDto.ExerciseLogByDate> {
-        return exerciseLogList.map {
-            ExerciseLogResponseDto.ExerciseLogByDate(
-                    title = it.title,
-                    exerciseType = it.exerciseType,
-                    description = it.description,
-                    intensity = it.intensity,
-                    startTime = it.startTime,
-                    endTime = it.endTime,
-                    imageList = it.imageList.map { image -> image.imageUrl })
-        }
+                exerciseLogDao.getExerciseLogByDate(account, currentDate).map { it.toExerciseLogByDate() })
     }
 }

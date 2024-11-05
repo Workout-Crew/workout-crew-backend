@@ -1,5 +1,6 @@
 package com.comtongsu.exercise.domain.medal.entity
 
+import com.comtongsu.exercise.domain.medal.entity.enums.MedalRank
 import com.comtongsu.exercise.domain.medal.entity.enums.MedalType
 import jakarta.persistence.*
 
@@ -12,4 +13,5 @@ class Medal(
         @Column(name = "medal_type", nullable = false)
         var medalType: MedalType? = null,
         var value: Int? = null,
+        var medalRank: MedalRank? = null,
 )
