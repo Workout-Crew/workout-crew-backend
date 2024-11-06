@@ -1,6 +1,7 @@
 package com.comtongsu.exercise.domain.medal.controller
 
 import com.comtongsu.exercise.domain.medal.dto.response.MedalResponseDto
+import com.comtongsu.exercise.domain.medal.entity.enums.MedalType
 import com.comtongsu.exercise.domain.medal.service.MedalService
 import io.swagger.v3.oas.annotations.Operation
 import org.springframework.http.HttpStatus
@@ -18,7 +19,8 @@ class MedalController(private val medalService: MedalService) {
     fun getExerciseLogCount(
             @RequestHeader accessToken: String,
     ): ResponseEntity<MedalResponseDto.MedalMissionResponse> {
-        return ResponseEntity(medalService.getExerciseLogCount(accessToken), HttpStatus.OK)
+        return ResponseEntity(
+                medalService.getMedalMission(accessToken, MedalType.WRITE_EXERCISE_LOG), HttpStatus.OK)
     }
 
     @Operation(summary = "모임 운동 작성 횟수 조회")
@@ -26,7 +28,9 @@ class MedalController(private val medalService: MedalService) {
     fun getGatheringExerciseLogCount(
             @RequestHeader accessToken: String,
     ): ResponseEntity<MedalResponseDto.MedalMissionResponse> {
-        return ResponseEntity(medalService.getGatheringExerciseLogCount(accessToken), HttpStatus.OK)
+        return ResponseEntity(
+                medalService.getMedalMission(accessToken, MedalType.WRITE_GATHERING_EXERCISE_LOG),
+                HttpStatus.OK)
     }
 
     @Operation(summary = "모임 개설 횟수 조회")
@@ -34,7 +38,8 @@ class MedalController(private val medalService: MedalService) {
     fun getGatheringCount(
             @RequestHeader accessToken: String,
     ): ResponseEntity<MedalResponseDto.MedalMissionResponse> {
-        return ResponseEntity(medalService.getGatheringCount(accessToken), HttpStatus.OK)
+        return ResponseEntity(
+                medalService.getMedalMission(accessToken, MedalType.MAKE_GATHERING), HttpStatus.OK)
     }
 
     @Operation(summary = "작성한 기록의 운동 종류 조회")
@@ -42,7 +47,9 @@ class MedalController(private val medalService: MedalService) {
     fun getExerciseLogTypeCount(
             @RequestHeader accessToken: String,
     ): ResponseEntity<MedalResponseDto.MedalMissionResponse> {
-        return ResponseEntity(medalService.getExerciseLogTypeCount(accessToken), HttpStatus.OK)
+        return ResponseEntity(
+                medalService.getMedalMission(accessToken, MedalType.WRITE_VARIOUS_EXERCISE_TYPE),
+                HttpStatus.OK)
     }
 
     @Operation(summary = "보유 메달 개수 조회")
@@ -54,10 +61,16 @@ class MedalController(private val medalService: MedalService) {
     }
 
     @Operation(summary = "보유 메달 조회")
-    @RequestMapping("/total")
-    fun getTotalMedal(
+    @RequestMapping("/mine")
+    fun getMyMedal(
             @RequestHeader accessToken: String,
-    ): ResponseEntity<MedalResponseDto.TotalMedalResponse> {
-        return ResponseEntity(medalService.getTotalMedal(accessToken), HttpStatus.OK)
+    ): ResponseEntity<MedalResponseDto.MyMedalResponse> {
+        return ResponseEntity(medalService.getMyMedal(accessToken), HttpStatus.OK)
+    }
+
+    @Operation(summary = "전체 메달 조회")
+    @RequestMapping("/total")
+    fun getTotalMedal(): ResponseEntity<MedalResponseDto.TotalMedalResponse> {
+        return ResponseEntity(medalService.getTotalMedal(), HttpStatus.OK)
     }
 }

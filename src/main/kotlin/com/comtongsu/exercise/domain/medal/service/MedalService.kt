@@ -1,5 +1,6 @@
 package com.comtongsu.exercise.domain.medal.service
 
+import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.account.service.KakaoService
 import com.comtongsu.exercise.domain.medal.dao.MedalDao
 import com.comtongsu.exercise.domain.medal.dto.response.MedalResponseDto
@@ -17,104 +18,72 @@ class MedalService(
         private val medalDao: MedalDao,
         private val validator: Validator,
         private val medalRepository: MedalRepository,
+        private val medalTypeList: List<MedalType> = MedalType.values().toList()
 ) {
-    fun getExerciseLogCount(accessToken: String): MedalResponseDto.MedalMissionResponse {
+
+    fun getMedalMission(
+            accessToken: String,
+            medalType: MedalType
+    ): MedalResponseDto.MedalMissionResponse {
         val account = kakaoService.getAccountFromAccessToken(accessToken)
-        val currentValue = medalDao.getExerciseLogCount(account)
+
+        val currentValue =
+                when (medalType) {
+                    MedalType.WRITE_EXERCISE_LOG -> medalDao.getExerciseLogCount(account)
+                    MedalType.WRITE_GATHERING_EXERCISE_LOG -> medalDao.getGatheringExerciseLogCount(account)
+                    MedalType.MAKE_GATHERING -> medalDao.getGatheringCount(account)
+                    MedalType.WRITE_VARIOUS_EXERCISE_TYPE -> medalDao.getExerciseLogTypeCount(account)
+                }
 
         return MedalResponseDto.MedalMissionResponse(
-                medalType = MedalType.WRITE_EXERCISE_LOG,
-                currentValue = currentValue,
-                nextValue = medalDao.getNextMedal(currentValue, MedalType.WRITE_EXERCISE_LOG)?.value)
-    }
-
-    fun getGatheringExerciseLogCount(accessToken: String): MedalResponseDto.MedalMissionResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
-        val currentValue = medalDao.getGatheringExerciseLogCount(account)
-
-        return MedalResponseDto.MedalMissionResponse(
-                medalType = MedalType.WRITE_GATHERING_EXERCISE_LOG,
-                currentValue = currentValue,
-                nextValue =
-                        medalDao.getNextMedal(currentValue, MedalType.WRITE_GATHERING_EXERCISE_LOG)?.value)
-    }
-
-    fun getGatheringCount(accessToken: String): MedalResponseDto.MedalMissionResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
-        val currentValue = medalDao.getGatheringCount(account)
-
-        return MedalResponseDto.MedalMissionResponse(
-                medalType = MedalType.MAKE_GATHERING,
-                currentValue = currentValue,
-                nextValue = medalDao.getNextMedal(currentValue, MedalType.MAKE_GATHERING)?.value)
-    }
-
-    fun getExerciseLogTypeCount(accessToken: String): MedalResponseDto.MedalMissionResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
-        val currentValue = medalDao.getExerciseLogTypeCount(account)
-
-        return MedalResponseDto.MedalMissionResponse(
-                medalType = MedalType.WRITE_VARIOUS_EXERCISE_TYPE,
-                currentValue = currentValue,
-                nextValue =
-                        medalDao.getNextMedal(currentValue, MedalType.WRITE_VARIOUS_EXERCISE_TYPE)?.value)
+                medalType, currentValue, medalDao.getNextMedal(currentValue, medalType)?.value)
     }
 
     fun getMedalCount(accessToken: String): MedalResponseDto.MedalCountResponse {
         val account = kakaoService.getAccountFromAccessToken(accessToken)
-        var medalCountResponse = MedalResponseDto.MedalCountResponse(0, 0, 0)
+        val medalCountResponse = MedalResponseDto.MedalCountResponse(0, 0, 0)
 
-        var currentValue = medalDao.getExerciseLogCount(account)
-        var currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.WRITE_EXERCISE_LOG)
-        medalCountResponse = validator.setMedalCount(medalCountResponse, currentMedal)
+        medalTypeList.forEach { medalType ->
+            val currentMedal = getCurrentMedalByMedalType(account, medalType)
+            val medalValue = validator.setMedalCount(currentMedal)
 
-        currentValue = medalDao.getGatheringExerciseLogCount(account)
-        currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.WRITE_GATHERING_EXERCISE_LOG)
-        medalCountResponse = validator.setMedalCount(medalCountResponse, currentMedal)
-
-        currentValue = medalDao.getGatheringCount(account)
-        currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.MAKE_GATHERING)
-        medalCountResponse = validator.setMedalCount(medalCountResponse, currentMedal)
-
-        currentValue = medalDao.getExerciseLogTypeCount(account)
-        currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.WRITE_VARIOUS_EXERCISE_TYPE)
-        medalCountResponse = validator.setMedalCount(medalCountResponse, currentMedal)
+            medalCountResponse.apply {
+                bronze += medalValue.bronze
+                silver += medalValue.silver
+                gold += medalValue.gold
+            }
+        }
 
         return medalCountResponse
     }
 
-    fun getTotalMedal(accessToken: String): MedalResponseDto.TotalMedalResponse {
+    fun getMyMedal(accessToken: String): MedalResponseDto.MyMedalResponse {
         val account = kakaoService.getAccountFromAccessToken(accessToken)
-        val totalMedalResponse: MutableList<MedalResponseDto.TotalMedal> = mutableListOf()
 
-        var medalList: List<Medal> = medalRepository.findByMedalType(MedalType.WRITE_EXERCISE_LOG)
-        var medalInfo =
-                medalList.map { MedalResponseDto.MedalInfo(it.medalType, it.image, it.value, it.medalRank) }
-        var currentValue = medalDao.getExerciseLogCount(account)
-        var currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.WRITE_EXERCISE_LOG)
-        totalMedalResponse.add(MedalResponseDto.TotalMedal(medalInfo, currentMedal?.medalRank))
+        return MedalResponseDto.MyMedalResponse(
+                medalTypeList.map { medalType ->
+                    val currentMedal = getCurrentMedalByMedalType(account, medalType)
+                    MedalResponseDto.MyMedal(medalType, currentMedal?.medalRank)
+                })
+    }
 
-        medalList = medalRepository.findByMedalType(MedalType.WRITE_GATHERING_EXERCISE_LOG)
-        medalInfo =
-                medalList.map { MedalResponseDto.MedalInfo(it.medalType, it.image, it.value, it.medalRank) }
-        currentValue = medalDao.getGatheringExerciseLogCount(account)
-        currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.WRITE_GATHERING_EXERCISE_LOG)
-        totalMedalResponse.add(MedalResponseDto.TotalMedal(medalInfo, currentMedal?.medalRank))
+    fun getTotalMedal(): MedalResponseDto.TotalMedalResponse {
+        val medalList = medalRepository.findAll()
 
-        medalList = medalRepository.findByMedalType(MedalType.MAKE_GATHERING)
-        medalInfo =
-                medalList.map { MedalResponseDto.MedalInfo(it.medalType, it.image, it.value, it.medalRank) }
-        currentValue = medalDao.getGatheringCount(account)
-        currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.MAKE_GATHERING)
-        totalMedalResponse.add(MedalResponseDto.TotalMedal(medalInfo, currentMedal?.medalRank))
+        return MedalResponseDto.TotalMedalResponse(
+                medalList.map { medal ->
+                    MedalResponseDto.MedalInfo(medal.medalType, medal.image, medal.value, medal.medalRank)
+                })
+    }
 
-        medalList = medalRepository.findByMedalType(MedalType.WRITE_VARIOUS_EXERCISE_TYPE)
-        medalInfo =
-                medalList.map { MedalResponseDto.MedalInfo(it.medalType, it.image, it.value, it.medalRank) }
-        currentValue = medalDao.getExerciseLogTypeCount(account)
-        currentMedal = medalDao.getCurrentMedal(currentValue, MedalType.WRITE_VARIOUS_EXERCISE_TYPE)
-        totalMedalResponse.add(MedalResponseDto.TotalMedal(medalInfo, currentMedal?.medalRank))
-
-        return MedalResponseDto.TotalMedalResponse(totalMedalResponse)
+    fun getCurrentMedalByMedalType(account: Account, medalType: MedalType): Medal? {
+        val currentValue =
+                when (medalType) {
+                    MedalType.WRITE_EXERCISE_LOG -> medalDao.getExerciseLogCount(account)
+                    MedalType.WRITE_GATHERING_EXERCISE_LOG -> medalDao.getGatheringExerciseLogCount(account)
+                    MedalType.MAKE_GATHERING -> medalDao.getGatheringCount(account)
+                    MedalType.WRITE_VARIOUS_EXERCISE_TYPE -> medalDao.getExerciseLogTypeCount(account)
+                }
+        return medalDao.getCurrentMedal(currentValue, medalType)
     }
 }

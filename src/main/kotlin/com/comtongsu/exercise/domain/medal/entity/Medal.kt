@@ -13,5 +13,5 @@ class Medal(
         @Column(name = "medal_type", nullable = false)
         var medalType: MedalType? = null,
         var value: Int? = null,
-        var medalRank: MedalRank? = null,
+        var medalRank: MedalRank = MedalRank.NONE,
 )
