@@ -35,6 +35,10 @@ jobs:
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
           echo "REGION=${{ secrets.REGION }}" >> .env
 
+      - name: List build files
+        run: |
+          ls -l build/libs  # 빌드된 JAR 파일 목록 확인
+
       - name: Copy JAR and .env files to EC2
         uses: appleboy/scp-action@v0.1.5
         with:
@@ -44,7 +48,7 @@ jobs:
           source: |
             build/libs/${{ secrets.JAR_FILE }}
             .env
-          target: "~/"
+          target: "/home/${{ secrets.EC2_USER }}/"
 
       - name: Deploy on EC2
         uses: appleboy/ssh-action@v0.1.10
