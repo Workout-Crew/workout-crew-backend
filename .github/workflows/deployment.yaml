@@ -31,7 +31,6 @@ jobs:
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
           echo "REGION=${{ secrets.REGION }}" >> .env
-          # 필요한 추가 환경 변수를 여기에 추가
 
       - name: Copy JAR and .env files to EC2
         uses: appleboy/scp-action@v0.1.5
@@ -51,11 +50,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
-            # .env 파일의 변수를 환경 변수로 로드
             export $(grep -v '^#' .env | xargs)
             
-            # 기존 애플리케이션 종료
             pkill -f ${{ secrets.JAR_FILE }} || true
 
-            # Spring Boot 애플리케이션 실행
             nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 &
