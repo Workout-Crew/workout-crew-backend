@@ -34,24 +34,28 @@ jobs:
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
           echo "REGION=${{ secrets.REGION }}" >> .env
+          cat .env
 
       - name: List build files
         run: |
           ls -l build/libs  
 
-      - name: Prepare files for transfer
-        run: |
-          mkdir -p deploy_dir
-          cp ./build/libs/${{ secrets.JAR_FILE }} deploy_dir/
-          cp ./.env deploy_dir/
-
-      - name: Copy files to EC2
+      - name: Copy JAR file to EC2
         uses: appleboy/scp-action@v0.1.5
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          source: "./deploy_dir/*"
+          source: "./build/libs/${{ secrets.JAR_FILE }}"
+          target: "/home/${{ secrets.EC2_USER }}/"
+
+      - name: Copy .env file to EC2
+        uses: appleboy/scp-action@v0.1.5
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
+          source: "./.env"
           target: "/home/${{ secrets.EC2_USER }}/"
 
       - name: Deploy on EC2
