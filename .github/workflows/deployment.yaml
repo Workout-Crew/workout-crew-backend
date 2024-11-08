@@ -45,9 +45,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
-          source: |
-            build/libs/${{ secrets.JAR_FILE }}
-            .env
+          source: "./build/libs/${{ secrets.JAR_FILE }},./.env"
           target: "/home/${{ secrets.EC2_USER }}/"
 
       - name: Deploy on EC2
