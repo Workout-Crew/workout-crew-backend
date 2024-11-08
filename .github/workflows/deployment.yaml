@@ -41,7 +41,7 @@ jobs:
 
       - name: Prepare files for transfer
         run: |
-          mkdir -p temp_deploy
+          mkdir -p deploy_dir
           cp ./build/libs/${{ secrets.JAR_FILE }} deploy_dir/
           cp ./.env deploy_dir/
 
