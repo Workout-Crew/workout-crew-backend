@@ -58,7 +58,7 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           source: "./.env"
-          target: "/home/${{ secrets.EC2_USER }}/"
+          target: "/home/${{ secrets.EC2_USER }}/build/libs"
           debug: true
 
       - name: Deploy on EC2
@@ -68,6 +68,8 @@ jobs:
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_KEY }}
           script: |
+            cd build/libs
+            
             export $(grep -v '^#' .env | xargs)
             
             pkill -f ${{ secrets.JAR_FILE }} || true
