@@ -66,4 +66,8 @@ jobs:
 
             pkill -f 'java -jar ${{ secrets.JAR_FILE }}' || true
             
+            pwd
+          
+            cd build/libs
+            
             nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 &
