@@ -72,7 +72,7 @@ jobs:
             
             echo "ready to kill the application..."
             
-            pkill -f 'java -jar ${{ secrets.JAR_FILE }}' || true
+            pkill -x ${{ secrets.JAR_FILE }} || true
             
             echo "Sleep"
             
