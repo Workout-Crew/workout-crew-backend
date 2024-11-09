@@ -66,4 +66,4 @@ jobs:
 
             pkill -f 'java -jar ${{ secrets.JAR_FILE }}' || true
             
-            nohup java -jar /home/${{ secrets.EC2_USER }}/build/libs/${{ secrets.JAR_FILE }} > /home/${{ secrets.EC2_USER }}/app.log 2>&1 &
+            nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 &
