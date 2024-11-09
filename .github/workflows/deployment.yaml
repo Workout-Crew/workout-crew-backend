@@ -66,4 +66,4 @@ jobs:
             
             pkill -f ${{ secrets.JAR_FILE }} || true
 
-            nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 &
+            nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 & disown
