@@ -64,6 +64,6 @@ jobs:
           script: |
             export $(grep -v '^#' .env | xargs)
             
-            pkill -f ${{ secrets.JAR_FILE }} || true
+            pkill -f "build/libs/${{ secrets.JAR_FILE }}" || true
 
-            nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 & disown
+            nohup java -jar build/libs/${{ secrets.JAR_FILE }} > app.log 2>&1
