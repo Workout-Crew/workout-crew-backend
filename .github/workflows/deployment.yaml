@@ -64,10 +64,8 @@ jobs:
           script: |
             export $(grep -v '^#' .env | xargs)
 
-            pkill -f 'java -jar ${{ secrets.JAR_FILE }}' || true
+            cd /home/${{ secrets.EC2_USER }}/build/libs
             
-            pwd
-          
-            cd build/libs
+            pkill -f 'java -jar ${{ secrets.JAR_FILE }}' || true
             
             nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 &
