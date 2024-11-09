@@ -63,7 +63,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           script: |
             export $(grep -v '^#' .env | xargs)
-            
-            pkill -f ${{ secrets.JAR_FILE }} || true
 
-            nohup java -jar ${{ secrets.JAR_FILE }} > app.log 2>&1 &
+            pkill -f 'java -jar ${{ secrets.JAR_FILE }}' || true
+            
+            nohup java -jar /home/${{ secrets.EC2_USER }}/build/libs/${{ secrets.JAR_FILE }} > /home/${{ secrets.EC2_USER }}/app.log 2>&1 &
