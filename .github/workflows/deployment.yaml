@@ -72,7 +72,7 @@ jobs:
             
             echo "ready to kill the application..."
             
-            pkill -x ${{ secrets.JAR_FILE }} || true
+            fuser -k 8080/tcp
             
             echo "Sleep"
             
