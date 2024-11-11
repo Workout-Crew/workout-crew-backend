@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class ExerciseRecommendationService(private val kakaoService: KakaoService) {
     fun getExerciseRecommendation(
-            accessToken: String
+            token: String
     ): ExerciseRecommendationResponseDto.ExerciseRecommendationResponse {
-        val account: Account = kakaoService.getAccountFromAccessToken(accessToken)
+        val account: Account = kakaoService.getAccount(token)
 
         val exerciseRecommendation =
                 account.exerciseRecommendationList.maxByOrNull { it.createdDate }

@@ -12,7 +12,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "account")
 class Account(
-        @Id var id: Long = 0,
+        @Id var id: String = "",
         var nickname: String? = null,
         var height: Int? = null,
         var weight: Int? = null,
@@ -29,7 +29,7 @@ class Account(
         var gatheringList: MutableList<AccountGathering> = mutableListOf(),
 ) {
     companion object {
-        fun createAccount(id: Long): Account {
+        fun createAccount(id: String): Account {
             return Account(id = id)
         }
     }

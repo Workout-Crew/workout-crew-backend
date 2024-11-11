@@ -29,11 +29,11 @@ class ExerciseLogService(
 
     @Transactional
     fun createExerciseLog(
-            accessToken: String,
+            token: String,
             imageList: List<MultipartFile>?,
             request: ExerciseLogRequestDto.ExerciseLogRequest
     ) {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
+        val account = kakaoService.getAccount(token)
         val exerciseTime: Int = Duration.between(request.startTime, request.endTime).toHours().toInt()
 
         val exerciseLog =
@@ -51,20 +51,18 @@ class ExerciseLogService(
         }
     }
 
-    fun getTotalExerciseLog(
-            accessToken: String
-    ): ExerciseLogResponseDto.TotalExerciseLogListResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
+    fun getTotalExerciseLog(token: String): ExerciseLogResponseDto.TotalExerciseLogListResponse {
+        val account = kakaoService.getAccount(token)
 
         return ExerciseLogResponseDto.TotalExerciseLogListResponse(
                 exerciseLogDao.getTotalExerciseLog(account))
     }
 
     fun getExerciseLogByDate(
-            accessToken: String,
+            token: String,
             currentDate: LocalDate
     ): ExerciseLogResponseDto.ExerciseLogByDateListResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
+        val account = kakaoService.getAccount(token)
 
         return ExerciseLogResponseDto.ExerciseLogByDateListResponse(
                 exerciseLogDao.getExerciseLogByDate(account, currentDate).map { it.toExerciseLogByDate() })

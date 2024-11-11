@@ -21,10 +21,10 @@ class ExerciseRecommendationController(
     @Operation(summary = "추천 운동 조회", description = "추천된 운동을 조회합니다. 주기적으로 데이터를 통헤 추천 운동을 저장합니다.")
     @GetMapping
     fun getExerciseRecommendation(
-            @RequestHeader accessToken: String
+            @RequestHeader token: String
     ): ResponseEntity<ExerciseRecommendationResponseDto.ExerciseRecommendationResponse> {
 
         return ResponseEntity(
-                exerciseRecommendationService.getExerciseRecommendation(accessToken), HttpStatus.OK)
+                exerciseRecommendationService.getExerciseRecommendation(token), HttpStatus.OK)
     }
 }

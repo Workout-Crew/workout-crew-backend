@@ -12,14 +12,14 @@ class AccountService(
 ) {
 
     @Transactional
-    fun createAccountInfo(accessToken: String, request: AccountRequestDto.AccountRequest) {
-        val account: Account = kakaoService.getAccountFromAccessToken(accessToken)
+    fun createAccountInfo(token: String, request: AccountRequestDto.AccountRequest) {
+        val account: Account = kakaoService.getAccount(token)
         account.updateAccountInfo(request)
     }
 
     @Transactional
-    fun createAccountGoal(accessToken: String, request: AccountRequestDto.AccountGoalRequest) {
-        val account: Account = kakaoService.getAccountFromAccessToken(accessToken)
+    fun createAccountGoal(token: String, request: AccountRequestDto.AccountGoalRequest) {
+        val account: Account = kakaoService.getAccount(token)
         account.updateAccountGoal(request)
     }
 }

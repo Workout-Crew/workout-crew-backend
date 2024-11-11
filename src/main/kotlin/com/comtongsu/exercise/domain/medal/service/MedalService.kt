@@ -21,11 +21,8 @@ class MedalService(
         private val medalTypeList: List<MedalType> = MedalType.values().toList()
 ) {
 
-    fun getMedalMission(
-            accessToken: String,
-            medalType: MedalType
-    ): MedalResponseDto.MedalMissionResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
+    fun getMedalMission(token: String, medalType: MedalType): MedalResponseDto.MedalMissionResponse {
+        val account = kakaoService.getAccount(token)
 
         val currentValue =
                 when (medalType) {
@@ -39,8 +36,8 @@ class MedalService(
                 medalType, currentValue, medalDao.getNextMedal(currentValue, medalType)?.value)
     }
 
-    fun getMedalCount(accessToken: String): MedalResponseDto.MedalCountResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
+    fun getMedalCount(token: String): MedalResponseDto.MedalCountResponse {
+        val account = kakaoService.getAccount(token)
         val medalCountResponse = MedalResponseDto.MedalCountResponse(0, 0, 0)
 
         medalTypeList.forEach { medalType ->
@@ -57,8 +54,8 @@ class MedalService(
         return medalCountResponse
     }
 
-    fun getMyMedal(accessToken: String): MedalResponseDto.MyMedalResponse {
-        val account = kakaoService.getAccountFromAccessToken(accessToken)
+    fun getMyMedal(token: String): MedalResponseDto.MyMedalResponse {
+        val account = kakaoService.getAccount(token)
 
         return MedalResponseDto.MyMedalResponse(
                 medalTypeList.map { medalType ->

@@ -20,10 +20,10 @@ class AccountController(private val accountService: AccountService) {
     @Operation(summary = "계정 정보 저장", description = "닉네임, 성별, 나이, 키, 체중을 저장합니다.")
     @PostMapping
     fun createAccountInfo(
-            @RequestHeader accessToken: String,
+            @RequestHeader token: String,
             @RequestBody request: AccountRequestDto.AccountRequest
     ): ResponseEntity<Unit> {
-        accountService.createAccountInfo(accessToken, request)
+        accountService.createAccountInfo(token, request)
 
         return ResponseEntity(Unit, HttpStatus.CREATED)
     }
@@ -31,10 +31,10 @@ class AccountController(private val accountService: AccountService) {
     @Operation(summary = "운동 목표 저장")
     @PostMapping("/goal")
     fun createAccountGoal(
-            @RequestHeader accessToken: String,
+            @RequestHeader token: String,
             @RequestBody request: AccountRequestDto.AccountGoalRequest
     ): ResponseEntity<Unit> {
-        accountService.createAccountGoal(accessToken, request)
+        accountService.createAccountGoal(token, request)
 
         return ResponseEntity(Unit, HttpStatus.CREATED)
     }
