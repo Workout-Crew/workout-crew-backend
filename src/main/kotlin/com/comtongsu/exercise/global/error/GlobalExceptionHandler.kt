@@ -1,8 +1,6 @@
 package com.comtongsu.exercise.global.error
 
-import com.comtongsu.exercise.global.error.exception.BusinessException
-import com.comtongsu.exercise.global.error.exception.EntityNotFoundException
-import com.comtongsu.exercise.global.error.exception.KakaoApiException
+import com.comtongsu.exercise.global.error.exception.*
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -23,9 +21,9 @@ class GlobalExceptionHandler {
         return ResponseEntity(response, HttpStatus.valueOf(errorCode.status))
     }
 
-    @ExceptionHandler(KakaoApiException::class)
-    protected fun handleExternalApiException(
-            exception: KakaoApiException
+    @ExceptionHandler(EntityNotFoundException::class)
+    protected fun handleEntityNotFoundException(
+            exception: EntityNotFoundException
     ): ResponseEntity<ErrorResponse> {
         logger.error(exception.errorCode.code, exception)
         val errorCode = exception.errorCode
@@ -33,9 +31,17 @@ class GlobalExceptionHandler {
         return ResponseEntity(response, HttpStatus.valueOf(errorCode.status))
     }
 
-    @ExceptionHandler(EntityNotFoundException::class)
-    protected fun handleEntityNotFoundException(
-            exception: EntityNotFoundException
+    @ExceptionHandler(S3Exception::class)
+    protected fun handleS3FoundException(exception: S3Exception): ResponseEntity<ErrorResponse> {
+        logger.error(exception.errorCode.code, exception)
+        val errorCode = exception.errorCode
+        val response = ErrorResponse(errorCode)
+        return ResponseEntity(response, HttpStatus.valueOf(errorCode.status))
+    }
+
+    @ExceptionHandler(BedrockException::class)
+    protected fun handleBedrockFoundException(
+            exception: BedrockException
     ): ResponseEntity<ErrorResponse> {
         logger.error(exception.errorCode.code, exception)
         val errorCode = exception.errorCode

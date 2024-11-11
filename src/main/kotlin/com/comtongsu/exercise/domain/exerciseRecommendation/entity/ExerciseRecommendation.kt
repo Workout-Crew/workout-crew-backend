@@ -18,4 +18,16 @@ class ExerciseRecommendation(
                 nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var account: Account? = null,
-) : BaseEntity()
+) : BaseEntity() {
+    companion object {
+        fun createExerciseRecommendation(
+                account: Account,
+                description: String,
+        ): ExerciseRecommendation {
+            return ExerciseRecommendation(
+                    account = account,
+                    description = description,
+            )
+        }
+    }
+}

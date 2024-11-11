@@ -1,5 +1,6 @@
 package com.comtongsu.exercise.domain.exerciseLog.service
 
+import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.account.service.KakaoService
 import com.comtongsu.exercise.domain.exerciseLog.dao.ExerciseLogDao
 import com.comtongsu.exercise.domain.exerciseLog.dto.request.ExerciseLogRequestDto
@@ -66,5 +67,13 @@ class ExerciseLogService(
 
         return ExerciseLogResponseDto.ExerciseLogByDateListResponse(
                 exerciseLogDao.getExerciseLogByDate(account, currentDate).map { it.toExerciseLogByDate() })
+    }
+
+    fun getExerciseForRecommendation(
+            account: Account
+    ): List<ExerciseLogResponseDto.ExerciseForRecommendation> {
+        val exerciseLogList = exerciseLogDao.getExerciseLogByTwoWeeks(account)
+
+        return exerciseLogList.map { exerciseLog -> exerciseLog.toExerciseForRecommendation() }
     }
 }

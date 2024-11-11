@@ -14,10 +14,8 @@ class KakaoController(private val kakaoService: KakaoService) {
 
     @Operation(summary = "카카오 회원 생성")
     @PostMapping
-    fun createAccount(@RequestParam("token") idToken: String): ResponseEntity<Unit> {
-
-        kakaoService.createOrGetAccount(idToken)
-
+    fun createAccount(@RequestParam("token") token: String): ResponseEntity<Unit> {
+        kakaoService.createOrGetAccount(token)
         return ResponseEntity(Unit, HttpStatus.OK)
     }
 }

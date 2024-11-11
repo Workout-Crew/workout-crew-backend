@@ -28,12 +28,11 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
-          echo "KAUTH_REST_API_KEY=${{ secrets.KAUTH_REST_API_KEY }}" >> .env
-          echo "KAUTH_REST_API_REDIRECT_URI=${{ secrets.KAUTH_REST_API_REDIRECT_URI }}" >> .env
           echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}" >> .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
-          echo "REGION=${{ secrets.REGION }}" >> .env
+          echo "MODEL_ID=${{ secrets.MODEL_ID }}" >> .env
+          echo "SYSTEM_PROMPT=${{ secrets.SYSTEM_PROMPT }}" >> .env
 
       - name: Copy JAR file to EC2
         uses: appleboy/scp-action@v0.1.5

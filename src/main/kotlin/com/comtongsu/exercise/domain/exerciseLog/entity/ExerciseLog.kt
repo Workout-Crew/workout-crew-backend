@@ -65,4 +65,18 @@ class ExerciseLog(
                 imageList = imageList.map { it.imageUrl },
                 gatheringTitle = gathering?.title)
     }
+
+    fun toExerciseForRecommendation(): ExerciseLogResponseDto.ExerciseForRecommendation {
+        return ExerciseLogResponseDto.ExerciseForRecommendation(
+                type = exerciseType?.text,
+                date = createdDate.toLocalDate().toString(),
+                title = title,
+                contents =
+                        listOf(
+                                ExerciseLogResponseDto.ExerciseContent(type = "Memo", content = description),
+                                ExerciseLogResponseDto.ExerciseContent(
+                                        type = "Intensity", content = intensity.toString()),
+                                ExerciseLogResponseDto.ExerciseContent(
+                                        type = "Time", content = startTime.toString() + "~" + endTime.toString())))
+    }
 }

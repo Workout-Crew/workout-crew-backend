@@ -1,6 +1,8 @@
 package com.comtongsu.exercise.global.enums
 
-enum class ExerciseType {
-    RUNNING,
-    SWIMMING
+enum class ExerciseType(val text: String) {
+    RUNNING("Running"),
+    HEALTH("Health"),
+    SWIMMING(""),
+    // TODO: Add more exercise types
 }
