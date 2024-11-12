@@ -22,10 +22,12 @@ class ExerciseRecommendation(
     companion object {
         fun createExerciseRecommendation(
                 account: Account,
+                exerciseType: ExerciseType,
                 description: String,
         ): ExerciseRecommendation {
             return ExerciseRecommendation(
                     account = account,
+                    exerciseType = exerciseType,
                     description = description,
             )
         }

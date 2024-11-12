@@ -35,7 +35,7 @@ class ExerciseLogController(private val exerciseLogService: ExerciseLogService) 
         return ResponseEntity(exerciseLogService.getTotalExerciseLog(token), HttpStatus.OK)
     }
 
-    @Operation(summary = "날짜별 운동 기록 조회")
+    @Operation(summary = "날짜별 운동 기록 조회", description = "YYYY-MM-DD 형식으로 날짜 입력")
     @GetMapping("/date/{currentDate}")
     fun getExerciseLogByDate(
             @RequestHeader token: String,

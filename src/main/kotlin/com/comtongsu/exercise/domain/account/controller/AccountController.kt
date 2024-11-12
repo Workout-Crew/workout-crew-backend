@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 @Tag(name = "Account", description = "계정 API")
 class AccountController(private val accountService: AccountService) {
 
-    @Operation(summary = "계정 정보 저장", description = "닉네임, 성별, 나이, 키, 체중을 저장합니다.")
+    @Operation(summary = "계정 정보 저장", description = "성별, 나이, 키, 체중을 저장합니다.")
     @PostMapping
     fun createAccountInfo(
             @RequestHeader token: String,
@@ -35,6 +35,17 @@ class AccountController(private val accountService: AccountService) {
             @RequestBody request: AccountRequestDto.AccountGoalRequest
     ): ResponseEntity<Unit> {
         accountService.createAccountGoal(token, request)
+
+        return ResponseEntity(Unit, HttpStatus.CREATED)
+    }
+
+    @Operation(summary = "닉네임 저장")
+    @PostMapping("/nickname")
+    fun createAccountNickname(
+            @RequestHeader token: String,
+            @RequestBody request: AccountRequestDto.AccountNicknameRequest
+    ): ResponseEntity<Unit> {
+        accountService.createAccountNickname(token, request)
 
         return ResponseEntity(Unit, HttpStatus.CREATED)
     }

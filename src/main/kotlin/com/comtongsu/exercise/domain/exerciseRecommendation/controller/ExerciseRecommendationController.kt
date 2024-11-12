@@ -1,6 +1,6 @@
 package com.comtongsu.exercise.domain.exerciseRecommendation.controller
 
-import com.comtongsu.exercise.domain.exerciseRecommendation.dto.ExerciseRecommendationResponseDto
+import com.comtongsu.exercise.domain.exerciseRecommendation.dto.response.ExerciseRecommendationResponseDto
 import com.comtongsu.exercise.domain.exerciseRecommendation.service.ExerciseRecommendationService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag

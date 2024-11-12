@@ -21,7 +21,8 @@ class RecommendationTasklet(private val bedrockService: BedrockService) : Taskle
                             bedrockService.invokeModel(
                                     exerciseAccountData.accountForRecommendation,
                                     exerciseAccountData.exerciseForRecommendation)
-                    RecommendationResult(exerciseAccountData.account, recommendation)
+                    RecommendationResult(
+                            exerciseAccountData.account, recommendation.type, recommendation.description)
                 }
 
         executionContext.put("recommendationResultList", recommendationResultList)
@@ -29,5 +30,9 @@ class RecommendationTasklet(private val bedrockService: BedrockService) : Taskle
         return RepeatStatus.FINISHED
     }
 
-    data class RecommendationResult(val account: Account, val recommendation: String)
+    data class RecommendationResult(
+            val account: Account,
+            val type: String,
+            val recommendation: String
+    )
 }

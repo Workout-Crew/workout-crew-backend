@@ -35,7 +35,6 @@ class Account(
     }
 
     fun updateAccountInfo(request: AccountRequestDto.AccountRequest) {
-        nickname = request.nickname
         sex = request.sex
         age = request.age
         weight = request.weight
@@ -44,5 +43,9 @@ class Account(
 
     fun updateAccountGoal(request: AccountRequestDto.AccountGoalRequest) {
         goal = request.goal
+    }
+
+    fun updateAccountNickname(request: AccountRequestDto.AccountNicknameRequest) {
+        nickname = request.nickname
     }
 }

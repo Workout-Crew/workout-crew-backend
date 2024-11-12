@@ -1,4 +1,4 @@
-package com.comtongsu.exercise.domain.exerciseRecommendation.dto
+package com.comtongsu.exercise.domain.exerciseRecommendation.dto.response
 
 import com.comtongsu.exercise.global.enums.ExerciseType
 

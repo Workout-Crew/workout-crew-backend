@@ -4,7 +4,6 @@ import com.comtongsu.exercise.domain.account.dto.request.AccountRequestDto
 import com.comtongsu.exercise.domain.account.dto.response.AccountResponseDto
 import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.account.repository.AccountRepository
-import com.comtongsu.exercise.global.enums.RecommendationGoal
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -27,9 +26,15 @@ class AccountService(
         account.updateAccountGoal(request)
     }
 
+    @Transactional
+    fun createAccountNickname(token: String, request: AccountRequestDto.AccountNicknameRequest) {
+        val account: Account = kakaoService.getAccount(token)
+        account.updateAccountNickname(request)
+    }
+
     fun getAccountForRecommendation(account: Account): AccountResponseDto.AccountForRecommendation {
         return AccountResponseDto.AccountForRecommendation(
-                account.height, account.weight, RecommendationGoal.OVERLOAD.text)
+                account.height, account.weight, account.goal.toString())
     }
 
     fun findAllAccount(): List<Account> {

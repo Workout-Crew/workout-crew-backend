@@ -20,7 +20,7 @@ class BedrockService(
     private val objectMapper: ObjectMapper,
     private val bedrockClient: BedrockRuntimeClient,
 ) {
-    fun invokeModel(accountData: AccountResponseDto.AccountForRecommendation, exerciseData: List<ExerciseLogResponseDto.ExerciseForRecommendation>): String {
+    fun invokeModel(accountData: AccountResponseDto.AccountForRecommendation, exerciseData: List<ExerciseLogResponseDto.ExerciseForRecommendation>): Result {
         val requestTemplate = getRequestTempate(accountData, exerciseData)
 
         try {
@@ -31,7 +31,10 @@ class BedrockService(
             }
 
             val responseBody = JSONObject(response.body().asUtf8String())
-            return JSONPointer("/content/0/text").queryFrom(responseBody).toString()
+            return Result(
+                responseBody.getString("type"),
+                responseBody.getString("description")
+            )
         } catch (e: SdkClientException) {
             throw InvokeErrorException()
         }
@@ -59,4 +62,9 @@ class BedrockService(
             }
         """
     }
+
+    data class Result(
+            val type: String,
+            val description: String,
+        )
 }

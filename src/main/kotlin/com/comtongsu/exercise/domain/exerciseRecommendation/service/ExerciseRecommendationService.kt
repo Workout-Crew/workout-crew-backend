@@ -2,10 +2,11 @@ package com.comtongsu.exercise.domain.exerciseRecommendation.service
 
 import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.account.service.KakaoService
-import com.comtongsu.exercise.domain.exerciseRecommendation.dto.ExerciseRecommendationResponseDto
+import com.comtongsu.exercise.domain.exerciseRecommendation.dto.response.ExerciseRecommendationResponseDto
 import com.comtongsu.exercise.domain.exerciseRecommendation.entity.ExerciseRecommendation
 import com.comtongsu.exercise.domain.exerciseRecommendation.exception.ExerciseRecommendationNotFoundException
 import com.comtongsu.exercise.domain.exerciseRecommendation.repository.ExerciseRecommendationRepository
+import com.comtongsu.exercise.global.enums.ExerciseType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -31,8 +32,9 @@ class ExerciseRecommendationService(
     }
 
     @Transactional
-    fun createExerciseRecommendation(account: Account, description: String) {
+    fun createExerciseRecommendation(account: Account, type: String, description: String) {
         exerciseRecommendationRepository.save(
-                ExerciseRecommendation.createExerciseRecommendation(account, description))
+                ExerciseRecommendation.createExerciseRecommendation(
+                        account, ExerciseType.valueOf(type), description))
     }
 }

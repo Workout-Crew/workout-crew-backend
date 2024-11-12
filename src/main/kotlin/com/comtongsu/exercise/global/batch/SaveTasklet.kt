@@ -18,7 +18,9 @@ class SaveTasklet(private val exerciseRecommendationService: ExerciseRecommendat
 
         exerciseAccountDataList.forEach() { recommendationResult ->
             exerciseRecommendationService.createExerciseRecommendation(
-                    recommendationResult.account, recommendationResult.recommendation)
+                    recommendationResult.account,
+                    recommendationResult.type,
+                    recommendationResult.recommendation)
         }
 
         return RepeatStatus.FINISHED
