@@ -5,7 +5,7 @@ import com.comtongsu.exercise.domain.medal.entity.Medal
 import org.springframework.stereotype.Component
 
 @Component
-class Validator {
+class MedalValidator {
     fun setMedalCount(medal: Medal?): MedalResponseDto.MedalCountResponse {
         val medalCountResponse = MedalResponseDto.MedalCountResponse(0, 0, 0)
         medal?.let {

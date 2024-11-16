@@ -5,7 +5,7 @@ import com.comtongsu.exercise.domain.gathering.entity.AccountGathering
 import org.springframework.stereotype.Component
 
 @Component
-class Validator {
+class GatheringValidator {
     fun isLeader(accountGatheringList: List<AccountGathering>, account: Account): Boolean {
         return accountGatheringList.find { it.account == account }?.isLeader ?: false
     }

@@ -9,7 +9,7 @@ import com.comtongsu.exercise.domain.gathering.exception.GatheringNotFoundExcept
 import com.comtongsu.exercise.domain.gathering.exception.LeaderNotFoundException
 import com.comtongsu.exercise.domain.gathering.repository.AccountGatheringRepository
 import com.comtongsu.exercise.domain.gathering.repository.GatheringRepository
-import com.comtongsu.exercise.domain.gathering.util.Validator
+import com.comtongsu.exercise.domain.gathering.util.GatheringValidator
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -20,7 +20,7 @@ class GatheringService(
         private val gatheringRepository: GatheringRepository,
         private val accountGatheringRepository: AccountGatheringRepository,
         private val kakaoService: KakaoService,
-        private val validator: Validator,
+        private val gatheringValidator: GatheringValidator,
 ) {
     @Transactional
     fun createGathering(token: String, request: GatheringRequestDto.GatheringRequest) {
@@ -57,7 +57,7 @@ class GatheringService(
                 accountGatheringRepository.findByGathering(gathering)
 
         val leaderNickname = getLeaderNickname(accountGatheringList)
-        val isLeader = validator.isLeader(accountGatheringList, account)
+        val isLeader = gatheringValidator.isLeader(accountGatheringList, account)
 
         return gathering.toGatheringDetailResponse(leaderNickname, isLeader)
     }

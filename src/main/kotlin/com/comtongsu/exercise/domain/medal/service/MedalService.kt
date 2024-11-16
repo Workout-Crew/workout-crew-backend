@@ -7,7 +7,7 @@ import com.comtongsu.exercise.domain.medal.dto.response.MedalResponseDto
 import com.comtongsu.exercise.domain.medal.entity.Medal
 import com.comtongsu.exercise.domain.medal.entity.enums.MedalType
 import com.comtongsu.exercise.domain.medal.repository.MedalRepository
-import com.comtongsu.exercise.domain.medal.util.Validator
+import com.comtongsu.exercise.domain.medal.util.MedalValidator
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,9 +16,9 @@ import org.springframework.transaction.annotation.Transactional
 class MedalService(
         private val kakaoService: KakaoService,
         private val medalDao: MedalDao,
-        private val validator: Validator,
+        private val medalValidator: MedalValidator,
         private val medalRepository: MedalRepository,
-        private val medalTypeList: List<MedalType> = MedalType.values().toList()
+        private val medalTypeList: List<MedalType> = MedalType.entries
 ) {
 
     fun getMedalMission(token: String, medalType: MedalType): MedalResponseDto.MedalMissionResponse {
@@ -42,7 +42,7 @@ class MedalService(
 
         medalTypeList.forEach { medalType ->
             val currentMedal = getCurrentMedalByMedalType(account, medalType)
-            val medalValue = validator.setMedalCount(currentMedal)
+            val medalValue = medalValidator.setMedalCount(currentMedal)
 
             medalCountResponse.apply {
                 bronze += medalValue.bronze
