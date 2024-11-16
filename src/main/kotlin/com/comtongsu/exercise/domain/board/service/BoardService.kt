@@ -1,11 +1,13 @@
 package com.comtongsu.exercise.domain.board.service
 
 import com.comtongsu.exercise.domain.account.service.KakaoService
+import com.comtongsu.exercise.domain.board.dao.BoardDao
 import com.comtongsu.exercise.domain.board.dto.request.BoardRequestDto
 import com.comtongsu.exercise.domain.board.dto.response.BoardResponseDto
 import com.comtongsu.exercise.domain.board.entity.Board
 import com.comtongsu.exercise.domain.board.entity.BoardImage
 import com.comtongsu.exercise.domain.board.entity.Category
+import com.comtongsu.exercise.domain.board.exception.BoardNotFoundException
 import com.comtongsu.exercise.domain.board.exception.CategoryNotFoundException
 import com.comtongsu.exercise.domain.board.repository.BoardImageRepository
 import com.comtongsu.exercise.domain.board.repository.BoardRepository
@@ -23,7 +25,8 @@ class BoardService(
         private val s3ImageService: S3ImageService,
         private val boardRepository: BoardRepository,
         private val boardImageRepository: BoardImageRepository,
-        private val categoryRepository: CategoryRepository
+        private val categoryRepository: CategoryRepository,
+        private val boardDao: BoardDao,
 ) {
 
     @Transactional
@@ -45,6 +48,32 @@ class BoardService(
         }
     }
 
+    fun getBoardList(categoryId: Long): BoardResponseDto.BoardListResponse {
+        val category =
+                categoryRepository.findByIdOrNull(categoryId) ?: throw CategoryNotFoundException()
+        return BoardResponseDto.BoardListResponse(
+                boardDao.getBoardList(category).map { it.toBoardContent() })
+    }
+
+    fun getBoardDetail(boardId: Long): BoardResponseDto.BoardDetailResponse {
+        val board = boardRepository.findByIdOrNull(boardId) ?: throw BoardNotFoundException()
+        return BoardResponseDto.BoardDetailResponse(
+                boardContent = board.toBoardContent(),
+                commentList = board.commentList.map { it.toCommentContent() })
+    }
+
+    fun getMyBoardList(token: String): BoardResponseDto.BoardListResponse {
+        val account = kakaoService.getAccount(token)
+        return BoardResponseDto.BoardListResponse(
+                boardDao.getBoardListByAccount(account).map { it.toBoardContent() })
+    }
+
+    fun getBoardListByMyComment(token: String): BoardResponseDto.BoardListResponse {
+        val account = kakaoService.getAccount(token)
+        return BoardResponseDto.BoardListResponse(
+                boardDao.getBoardListByMyComment(account).map { it.toBoardContent() })
+    }
+
     @Transactional
     fun createCategory(request: BoardRequestDto.CategoryRequest) {
         categoryRepository.save(Category.createCategory(request))
@@ -53,5 +82,10 @@ class BoardService(
     fun getCategoryList(): BoardResponseDto.CategoryListResponse {
         return BoardResponseDto.CategoryListResponse(
                 categoryRepository.findAll().map { it.toCategoryContent() })
+    }
+
+    fun getCategoryListByKeyword(keyword: String): BoardResponseDto.CategoryListResponse {
+        return BoardResponseDto.CategoryListResponse(
+                categoryRepository.findByNameContaining(keyword).map { it.toCategoryContent() })
     }
 }

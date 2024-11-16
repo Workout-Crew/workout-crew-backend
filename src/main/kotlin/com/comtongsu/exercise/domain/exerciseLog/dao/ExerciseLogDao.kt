@@ -4,7 +4,6 @@ import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.exerciseLog.dto.response.ExerciseLogResponseDto
 import com.comtongsu.exercise.domain.exerciseLog.entity.ExerciseLog
 import com.comtongsu.exercise.domain.exerciseLog.entity.QExerciseLog.exerciseLog
-import com.comtongsu.exercise.domain.exerciseLog.entity.QExerciseLogImage.exerciseLogImage
 import com.comtongsu.exercise.global.enums.ExerciseType
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.BooleanExpression
@@ -36,8 +35,6 @@ class ExerciseLogDao(private val queryFactory: JPAQueryFactory) {
     fun getExerciseLogByDate(account: Account, currentDate: LocalDate): List<ExerciseLog> {
         return queryFactory
                 .selectFrom(exerciseLog)
-                .leftJoin(exerciseLog.imageList, exerciseLogImage)
-                .fetchJoin()
                 .where(exerciseLog.account.eq(account).and(equalCurrentDate(currentDate)))
                 .fetch()
     }

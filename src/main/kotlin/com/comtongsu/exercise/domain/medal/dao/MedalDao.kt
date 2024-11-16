@@ -30,8 +30,6 @@ class MedalDao(private val queryFactory: JPAQueryFactory) {
     fun getGatheringCount(account: Account): Int {
         return queryFactory
                 .selectFrom(gathering)
-                .innerJoin(gathering.accountList, accountGathering)
-                .fetchJoin()
                 .where(accountGathering.account.eq(account).and(accountGathering.isLeader.isTrue))
                 .fetch()
                 .size

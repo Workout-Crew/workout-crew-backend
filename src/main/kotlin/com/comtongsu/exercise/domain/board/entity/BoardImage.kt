@@ -9,7 +9,7 @@ class BoardImage(
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "board_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var board: Board? = null,
-        @Column(name = "image_url") var imageUrl: String? = null,
+        @Column(name = "image_url") var imageUrl: String = "",
 ) {
     companion object {
         fun createBoardImage(board: Board, imageUrl: String): BoardImage {

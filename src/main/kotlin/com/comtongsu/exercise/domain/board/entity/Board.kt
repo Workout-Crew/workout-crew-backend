@@ -2,6 +2,7 @@ package com.comtongsu.exercise.domain.board.entity
 
 import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.board.dto.request.BoardRequestDto
+import com.comtongsu.exercise.domain.board.dto.response.BoardResponseDto
 import com.comtongsu.exercise.global.common.BaseEntity
 import jakarta.persistence.*
 
@@ -15,10 +16,10 @@ class Board(
         @Column(name = "view_count") var viewCount: Int = 0,
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "category_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        var category: Category? = null,
+        var category: Category = Category(),
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "account_id", foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        var account: Account? = null,
+        var account: Account = Account(),
         @OneToMany(mappedBy = "board") var commentList: MutableList<Comment> = mutableListOf(),
         @OneToMany(mappedBy = "board") var imageList: MutableList<BoardImage> = mutableListOf(),
 ) : BaseEntity() {
@@ -35,5 +36,17 @@ class Board(
                     content = request.content,
             )
         }
+    }
+
+    fun toBoardContent(): BoardResponseDto.BoardContent {
+        return BoardResponseDto.BoardContent(
+                id = id,
+                title = title,
+                content = content,
+                imageList = imageList.map { it.imageUrl },
+                writer = account.nickname,
+                commentCount = commentList.size,
+                createdDate = createdDate,
+        )
     }
 }

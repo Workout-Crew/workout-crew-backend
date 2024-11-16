@@ -27,6 +27,38 @@ class BoardController(private val boardService: BoardService) {
         return ResponseEntity(Unit, HttpStatus.CREATED)
     }
 
+    @Operation(summary = "카테고리별 게시글 목록 조회")
+    @GetMapping("/list/{categoryId}")
+    fun getBoardList(
+            @PathVariable categoryId: Long
+    ): ResponseEntity<BoardResponseDto.BoardListResponse> {
+        return ResponseEntity(boardService.getBoardList(categoryId), HttpStatus.OK)
+    }
+
+    @Operation(summary = "게시글 상세 조회")
+    @GetMapping("/detail/{boardId}")
+    fun getBoardDetail(
+            @PathVariable boardId: Long
+    ): ResponseEntity<BoardResponseDto.BoardDetailResponse> {
+        return ResponseEntity(boardService.getBoardDetail(boardId), HttpStatus.OK)
+    }
+
+    @Operation(summary = "내가 작성한 게시글 조회")
+    @GetMapping("/me")
+    fun getMyBoardList(
+            @RequestHeader token: String
+    ): ResponseEntity<BoardResponseDto.BoardListResponse> {
+        return ResponseEntity(boardService.getMyBoardList(token), HttpStatus.OK)
+    }
+
+    @Operation(summary = "내가 작성한 댓글이 있는 글 조회")
+    @GetMapping("/comment/me")
+    fun getBoardListByMyComment(
+            @RequestHeader token: String
+    ): ResponseEntity<BoardResponseDto.BoardListResponse> {
+        return ResponseEntity(boardService.getBoardListByMyComment(token), HttpStatus.OK)
+    }
+
     @Operation(summary = "게시판 개설")
     @PostMapping("/category")
     fun createCategory(
@@ -40,7 +72,15 @@ class BoardController(private val boardService: BoardService) {
 
     @Operation(summary = "게시판 목록 조회")
     @GetMapping("/category")
-    fun getCategoryList(): ResponseEntity<List<BoardResponseDto.CategoryListResponse>> {
+    fun getCategoryList(): ResponseEntity<BoardResponseDto.CategoryListResponse> {
         return ResponseEntity(boardService.getCategoryList(), HttpStatus.OK)
+    }
+
+    @Operation(summary = "게시판 목록 검색")
+    @GetMapping("/search/{keyword}")
+    fun getCategoryistByKeyword(
+            @PathVariable keyword: String
+    ): ResponseEntity<BoardResponseDto.CategoryListResponse> {
+        return ResponseEntity(boardService.getCategoryListByKeyword(keyword), HttpStatus.OK)
     }
 }

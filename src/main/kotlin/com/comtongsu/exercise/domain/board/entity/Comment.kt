@@ -1,6 +1,8 @@
 package com.comtongsu.exercise.domain.board.entity
 
 import com.comtongsu.exercise.domain.account.entity.Account
+import com.comtongsu.exercise.domain.board.dto.response.BoardResponseDto
+import com.comtongsu.exercise.global.common.BaseEntity
 import jakarta.persistence.*
 
 @Entity
@@ -17,6 +19,13 @@ class Comment(
                 name = "account_id",
                 nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        var account: Account? = null,
-        var writer: Boolean? = null,
-)
+        var account: Account = Account(),
+) : BaseEntity() {
+    fun toCommentContent(): BoardResponseDto.CommentContent {
+        return BoardResponseDto.CommentContent(
+                content = content,
+                writer = account.nickname,
+                createdDate = createdDate,
+        )
+    }
+}

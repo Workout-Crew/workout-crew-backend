@@ -26,4 +26,5 @@ enum class ErrorCode(val code: String, val message: String, var status: Int) {
 
     // Board
     CATEGORY_NOT_FOUND("B01", "Category is not found.", HttpStatus.BAD_REQUEST.value()),
+    BOARD_NOT_FOUND("B02", "Board is not found.", HttpStatus.BAD_REQUEST.value()),
 }
