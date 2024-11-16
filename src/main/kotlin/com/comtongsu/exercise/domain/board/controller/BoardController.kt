@@ -83,4 +83,15 @@ class BoardController(private val boardService: BoardService) {
     ): ResponseEntity<BoardResponseDto.CategoryListResponse> {
         return ResponseEntity(boardService.getCategoryListByKeyword(keyword), HttpStatus.OK)
     }
+
+    @Operation(summary = "댓글 달기")
+    @PostMapping("/comment")
+    fun createComment(
+            @RequestHeader token: String,
+            @RequestBody request: BoardRequestDto.CommentRequest
+    ): ResponseEntity<Unit> {
+        boardService.createComment(token, request)
+
+        return ResponseEntity(Unit, HttpStatus.CREATED)
+    }
 }

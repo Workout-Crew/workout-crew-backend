@@ -20,4 +20,14 @@ class AccountGathering(
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var gathering: Gathering? = null,
         @Column(name = "is_leader") var isLeader: Boolean? = null,
-)
+) {
+    companion object {
+        fun createAccountGathering(
+                account: Account,
+                gathering: Gathering,
+                isLeader: Boolean
+        ): AccountGathering {
+            return AccountGathering(account = account, gathering = gathering, isLeader = isLeader)
+        }
+    }
+}

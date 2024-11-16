@@ -7,11 +7,13 @@ import com.comtongsu.exercise.domain.board.dto.response.BoardResponseDto
 import com.comtongsu.exercise.domain.board.entity.Board
 import com.comtongsu.exercise.domain.board.entity.BoardImage
 import com.comtongsu.exercise.domain.board.entity.Category
+import com.comtongsu.exercise.domain.board.entity.Comment
 import com.comtongsu.exercise.domain.board.exception.BoardNotFoundException
 import com.comtongsu.exercise.domain.board.exception.CategoryNotFoundException
 import com.comtongsu.exercise.domain.board.repository.BoardImageRepository
 import com.comtongsu.exercise.domain.board.repository.BoardRepository
 import com.comtongsu.exercise.domain.board.repository.CategoryRepository
+import com.comtongsu.exercise.domain.board.repository.CommentRepository
 import com.comtongsu.exercise.global.s3.S3ImageService
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -26,6 +28,7 @@ class BoardService(
         private val boardRepository: BoardRepository,
         private val boardImageRepository: BoardImageRepository,
         private val categoryRepository: CategoryRepository,
+        private val commentRepository: CommentRepository,
         private val boardDao: BoardDao,
 ) {
 
@@ -87,5 +90,13 @@ class BoardService(
     fun getCategoryListByKeyword(keyword: String): BoardResponseDto.CategoryListResponse {
         return BoardResponseDto.CategoryListResponse(
                 categoryRepository.findByNameContaining(keyword).map { it.toCategoryContent() })
+    }
+
+    @Transactional
+    fun createComment(token: String, request: BoardRequestDto.CommentRequest) {
+        val account = kakaoService.getAccount(token)
+        val board = boardRepository.findByIdOrNull(request.boardId) ?: throw BoardNotFoundException()
+
+        commentRepository.save(Comment.createComment(request.content, board, account))
     }
 }

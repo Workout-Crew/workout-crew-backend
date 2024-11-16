@@ -21,6 +21,20 @@ class Comment(
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
         var account: Account = Account(),
 ) : BaseEntity() {
+    companion object {
+        fun createComment(
+                content: String,
+                board: Board,
+                account: Account,
+        ): Comment {
+            return Comment(
+                    content = content,
+                    board = board,
+                    account = account,
+            )
+        }
+    }
+
     fun toCommentContent(): BoardResponseDto.CommentContent {
         return BoardResponseDto.CommentContent(
                 content = content,

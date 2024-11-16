@@ -11,4 +11,9 @@ class BoardRequestDto {
             val name: String,
             val description: String,
     )
+
+    data class CommentRequest(
+            val boardId: Long,
+            val content: String,
+    )
 }
