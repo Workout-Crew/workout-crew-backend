@@ -62,6 +62,9 @@ dependencies {
 
     // Scheduler
     implementation("org.springframework.boot:spring-boot-starter-quartz")
+
+    // Actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {

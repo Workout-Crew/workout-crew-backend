@@ -1,6 +1,7 @@
 package com.comtongsu.exercise.domain.account.entity
 
 import com.comtongsu.exercise.domain.account.dto.request.AccountRequestDto
+import com.comtongsu.exercise.domain.account.dto.response.KakaoResponseDto
 import com.comtongsu.exercise.domain.account.entity.enums.Goal
 import com.comtongsu.exercise.domain.account.entity.enums.Sex
 import com.comtongsu.exercise.domain.board.entity.Comment
@@ -47,5 +48,10 @@ class Account(
 
     fun updateAccountNickname(request: AccountRequestDto.AccountNicknameRequest) {
         nickname = request.nickname
+    }
+
+    fun toKakaoResponse(): KakaoResponseDto.KakaoResponse {
+        return KakaoResponseDto.KakaoResponse(
+                nickname = nickname, sex = sex, height = height, weight = weight, age = age, goal = goal)
     }
 }

@@ -1,5 +1,6 @@
 package com.comtongsu.exercise.domain.account.controller
 
+import com.comtongsu.exercise.domain.account.dto.response.KakaoResponseDto
 import com.comtongsu.exercise.domain.account.service.KakaoService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
@@ -14,8 +15,9 @@ class KakaoController(private val kakaoService: KakaoService) {
 
     @Operation(summary = "카카오 회원 생성")
     @PostMapping
-    fun createAccount(@RequestParam("token") token: String): ResponseEntity<Unit> {
-        kakaoService.createOrGetAccount(token)
-        return ResponseEntity(Unit, HttpStatus.OK)
+    fun createAccount(
+            @RequestParam("token") token: String
+    ): ResponseEntity<KakaoResponseDto.KakaoResponse> {
+        return ResponseEntity(kakaoService.createOrGetAccount(token), HttpStatus.OK)
     }
 }

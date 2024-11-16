@@ -22,5 +22,8 @@ enum class ErrorCode(val code: String, val message: String, var status: Int) {
     INVOKE_ERROR("BR01", "Failed to invoke bedrock.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
 
     // Batch
-    EXECUTE_ERROR("B01", "Failed to execute batch.", HttpStatus.INTERNAL_SERVER_ERROR.value())
+    EXECUTE_ERROR("BA01", "Failed to execute batch.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+
+    // Board
+    CATEGORY_NOT_FOUND("B01", "Category is not found.", HttpStatus.BAD_REQUEST.value()),
 }
