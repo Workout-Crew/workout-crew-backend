@@ -1,6 +1,7 @@
 package com.comtongsu.exercise.domain.gathering.entity
 
 import com.comtongsu.exercise.domain.gathering.dto.request.GatheringRequestDto
+import com.comtongsu.exercise.domain.gathering.dto.response.GatheringResponseDto
 import com.comtongsu.exercise.domain.gathering.entity.enums.Place
 import com.comtongsu.exercise.global.common.BaseEntity
 import com.comtongsu.exercise.global.enums.ExerciseType
@@ -29,11 +30,26 @@ class Gathering(
             return Gathering(
                     title = request.title,
                     content = request.content,
-                    maximumNumber = null,
+                    maximumNumber = request.maximumNumber,
                     startDate = request.startDate,
                     exerciseType = request.exerciseType,
                     place = request.place,
             )
         }
+    }
+
+    fun toGatheringDetailResponse(
+            leaderNickname: String,
+            isLeader: Boolean
+    ): GatheringResponseDto.GatheringDetailResponse {
+        return GatheringResponseDto.GatheringDetailResponse(
+                title = title,
+                content = content,
+                leaderNickname = leaderNickname,
+                place = place,
+                exerciseType = exerciseType,
+                startDate = startDate,
+                maximumNumber = maximumNumber,
+                isLeader = isLeader)
     }
 }

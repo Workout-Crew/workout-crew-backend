@@ -17,6 +17,7 @@ enum class ErrorCode(val code: String, val message: String, var status: Int) {
 
     // Gathering
     GATHERING_NOT_FOUND("G01", "Gathering is not found.", HttpStatus.BAD_REQUEST.value()),
+    LEADER_NOT_FOUND("G02", "Leader is not found.", HttpStatus.BAD_REQUEST.value()),
 
     // Bedrock
     INVOKE_ERROR("BR01", "Failed to invoke bedrock.", HttpStatus.INTERNAL_SERVER_ERROR.value()),

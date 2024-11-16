@@ -11,5 +11,8 @@ class GatheringRequestDto {
             val exerciseType: ExerciseType,
             val startDate: LocalDateTime,
             val content: String,
+            val maximumNumber: Int,
     )
+
+    data class GatheringJoinRequest(val gatheringId: Long)
 }
