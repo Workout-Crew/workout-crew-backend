@@ -28,8 +28,8 @@ jobs:
           echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
           echo "DATABASE_USERNAME=${{ secrets.DATABASE_USERNAME }}" >> .env
           echo "DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}" >> .env
-          echo "ACCESS_KEY=${{ secrets.ACCESS_KEY }}" >> .env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY_ID }}" >> .env
+          echo "SECRET_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
           echo "MODEL_ID=${{ secrets.MODEL_ID }}" >> .env
           echo "SYSTEM_PROMPT=${{ secrets.SYSTEM_PROMPT }}" >> .env

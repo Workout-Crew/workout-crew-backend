@@ -64,6 +64,10 @@ dependencies {
 
     // Actuator
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    // Jackson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.0")
 }
 
 configure<com.diffplug.gradle.spotless.SpotlessExtension> {

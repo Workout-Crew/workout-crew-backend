@@ -40,6 +40,7 @@ class BatchConfig(
         return StepBuilder("getExerciseDataStep", jobRepository)
                 .tasklet(exerciseDataTasklet, platformTransactionManager)
                 .listener(promotionListener())
+                .allowStartIfComplete(true)
                 .build()
     }
 
@@ -51,6 +52,7 @@ class BatchConfig(
         return StepBuilder("getRecommendationStep", jobRepository)
                 .tasklet(recommendationTasklet, platformTransactionManager)
                 .listener(promotionListener())
+                .allowStartIfComplete(true)
                 .build()
     }
 
@@ -62,6 +64,7 @@ class BatchConfig(
         return StepBuilder("getSaveStep", jobRepository)
                 .tasklet(saveTasklet, platformTransactionManager)
                 .listener(promotionListener())
+                .allowStartIfComplete(true)
                 .build()
     }
 

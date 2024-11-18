@@ -3,6 +3,7 @@ package com.comtongsu.exercise.global.batch
 import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.global.bedrock.BedrockService
 import java.io.Serializable
+import org.slf4j.LoggerFactory
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.scope.context.ChunkContext
 import org.springframework.batch.core.step.tasklet.Tasklet
@@ -11,6 +12,10 @@ import org.springframework.stereotype.Component
 
 @Component
 class RecommendationTasklet(private val bedrockService: BedrockService) : Tasklet {
+    companion object {
+        private val logger = LoggerFactory.getLogger(RecommendationTasklet::class.java)
+    }
+
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus {
         val executionContext = chunkContext.stepContext.stepExecution.jobExecution.executionContext
         val exerciseAccountDataList =
@@ -18,12 +23,16 @@ class RecommendationTasklet(private val bedrockService: BedrockService) : Taskle
 
         val recommendationResultList =
                 exerciseAccountDataList.map { exerciseAccountData ->
-                    val recommendation =
-                            bedrockService.invokeModel(
-                                    exerciseAccountData.accountForRecommendation,
-                                    exerciseAccountData.exerciseForRecommendation)
-                    RecommendationResult(
-                            exerciseAccountData.account, recommendation.type, recommendation.description)
+                    try {
+                        val recommendation =
+                                bedrockService.invokeModel(
+                                        exerciseAccountData.accountForRecommendation,
+                                        exerciseAccountData.exerciseForRecommendation)
+                        RecommendationResult(
+                                exerciseAccountData.account, recommendation.type, recommendation.description)
+                    } catch (e: Exception) {
+                        logger.error("RecommendationTasklet Error: ${e.message}")
+                    }
                 }
 
         executionContext.put("recommendationResultList", recommendationResultList)

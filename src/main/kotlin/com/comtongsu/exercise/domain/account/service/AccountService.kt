@@ -33,8 +33,7 @@ class AccountService(
     }
 
     fun getAccountForRecommendation(account: Account): AccountResponseDto.AccountForRecommendation {
-        return AccountResponseDto.AccountForRecommendation(
-                account.height, account.weight, account.goal.toString())
+        return AccountResponseDto.AccountForRecommendation(account.height, account.weight, "overload")
     }
 
     fun findAllAccount(): List<Account> {

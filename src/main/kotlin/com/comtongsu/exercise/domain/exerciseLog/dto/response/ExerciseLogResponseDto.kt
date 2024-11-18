@@ -36,5 +36,5 @@ class ExerciseLogResponseDto {
     data class ExerciseContent(
             val type: String,
             val content: String?,
-    )
+    ) : Serializable
 }

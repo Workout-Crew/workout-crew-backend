@@ -5,7 +5,7 @@ import com.comtongsu.exercise.domain.exerciseLog.dto.response.ExerciseLogRespons
 import com.comtongsu.exercise.global.bedrock.exception.InvokeErrorException
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.json.JSONObject
-import org.json.JSONPointer
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import software.amazon.awssdk.core.SdkBytes
@@ -20,8 +20,12 @@ class BedrockService(
     private val objectMapper: ObjectMapper,
     private val bedrockClient: BedrockRuntimeClient,
 ) {
+    companion object {
+        private val logger = LoggerFactory.getLogger(BedrockService::class.java)
+    }
     fun invokeModel(accountData: AccountResponseDto.AccountForRecommendation, exerciseData: List<ExerciseLogResponseDto.ExerciseForRecommendation>): Result {
-        val requestTemplate = getRequestTempate(accountData, exerciseData)
+        val requestTemplate = getRequestTemplate(accountData, exerciseData)
+        logger.info("Request template: $requestTemplate")
 
         try {
             val response = bedrockClient.invokeModel { request ->
@@ -41,7 +45,7 @@ class BedrockService(
 
     }
 
-    fun getRequestTempate(accountData: AccountResponseDto.AccountForRecommendation, exerciseData: List<ExerciseLogResponseDto.ExerciseForRecommendation>): String {
+    fun getRequestTemplate(accountData: AccountResponseDto.AccountForRecommendation, exerciseData: List<ExerciseLogResponseDto.ExerciseForRecommendation>): String {
         val accountJsonData = objectMapper.writeValueAsString(accountData)
         val exerciseJsonData = exerciseData.joinToString(", ") {
             objectMapper.writeValueAsString(it)
@@ -52,11 +56,10 @@ class BedrockService(
                 "anthropic_version": "bedrock-2023-05-31", 
                 "anthropic_beta": ["computer-use-2024-10-22"] 
                 "max_tokens": 2048,
-                "system": $systemPrompt,
                 "messages": [
                     {
                         "role": "user",
-                        "content": "[$accountJsonData, $exerciseJsonData]"
+                        "content": "$systemPrompt[$accountJsonData, $exerciseJsonData])"
                     }
                 ]
             }
