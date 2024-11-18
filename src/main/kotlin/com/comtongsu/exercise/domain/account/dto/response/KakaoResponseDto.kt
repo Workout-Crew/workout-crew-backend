@@ -5,6 +5,7 @@ import com.comtongsu.exercise.domain.account.entity.enums.Sex
 
 class KakaoResponseDto {
     data class KakaoResponse(
+            val id: String,
             val nickname: String?,
             val sex: Sex?,
             val height: Int?,

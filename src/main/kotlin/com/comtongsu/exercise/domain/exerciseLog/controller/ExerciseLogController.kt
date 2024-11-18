@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import java.time.LocalDate
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -17,11 +18,13 @@ import org.springframework.web.multipart.MultipartFile
 class ExerciseLogController(private val exerciseLogService: ExerciseLogService) {
 
     @Operation(summary = "운동 기록 저장", description = "이미지와 저장 정보를 따로 받습니다. ")
-    @PostMapping
+    @PostMapping(
+            consumes = [MediaType.MULTIPART_FORM_DATA_VALUE],
+            produces = [MediaType.APPLICATION_JSON_VALUE])
     fun createExerciseLog(
             @RequestHeader token: String,
             @RequestPart(value = "image") imageList: List<MultipartFile>?,
-            @RequestBody request: ExerciseLogRequestDto.ExerciseLogRequest
+            @RequestPart(value = "request") request: ExerciseLogRequestDto.ExerciseLogRequest
     ): ResponseEntity<Unit> {
         exerciseLogService.createExerciseLog(token, imageList, request)
         return ResponseEntity(Unit, HttpStatus.CREATED)

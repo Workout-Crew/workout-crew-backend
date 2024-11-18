@@ -13,7 +13,7 @@ import jakarta.persistence.*
 @Entity
 @Table(name = "account")
 class Account(
-        @Id var id: String = "",
+        @Id @Column(length = 64) var id: String = "",
         var nickname: String? = null,
         var height: Int? = null,
         var weight: Int? = null,
@@ -52,6 +52,12 @@ class Account(
 
     fun toKakaoResponse(): KakaoResponseDto.KakaoResponse {
         return KakaoResponseDto.KakaoResponse(
-                nickname = nickname, sex = sex, height = height, weight = weight, age = age, goal = goal)
+                id = id,
+                nickname = nickname,
+                sex = sex,
+                height = height,
+                weight = weight,
+                age = age,
+                goal = goal)
     }
 }

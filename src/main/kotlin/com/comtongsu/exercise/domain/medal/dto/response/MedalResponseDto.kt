@@ -4,8 +4,13 @@ import com.comtongsu.exercise.domain.medal.entity.enums.MedalRank
 import com.comtongsu.exercise.domain.medal.entity.enums.MedalType
 
 class MedalResponseDto {
-    data class MedalMissionResponse(
+    data class MedalMissionListResponse(
+            val medalMissionList: List<MedalMission>,
+    )
+
+    data class MedalMission(
             val medalType: MedalType,
+            val medalRank: MedalRank?,
             val currentValue: Int,
             val nextValue: Int?,
     )
@@ -14,15 +19,6 @@ class MedalResponseDto {
             var gold: Int,
             var silver: Int,
             var bronze: Int,
-    )
-
-    data class MyMedalResponse(
-            var totalMedal: List<MyMedal>,
-    )
-
-    data class MyMedal(
-            val medalType: MedalType,
-            val userRank: MedalRank?,
     )
 
     data class TotalMedalResponse(
@@ -34,5 +30,6 @@ class MedalResponseDto {
             val image: String?,
             val value: Int?,
             val medalRank: MedalRank,
+            val alreadyGet: Boolean,
     )
 }
