@@ -2,7 +2,9 @@ package com.comtongsu.exercise.domain.gathering.controller
 
 import com.comtongsu.exercise.domain.gathering.dto.request.GatheringRequestDto
 import com.comtongsu.exercise.domain.gathering.dto.response.GatheringResponseDto
+import com.comtongsu.exercise.domain.gathering.entity.enums.Place
 import com.comtongsu.exercise.domain.gathering.service.GatheringService
+import com.comtongsu.exercise.global.enums.ExerciseType
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -46,5 +49,40 @@ class GatheringController(private val gatheringService: GatheringService) {
             @PathVariable gatheringId: Long,
     ): ResponseEntity<GatheringResponseDto.GatheringDetailResponse> {
         return ResponseEntity(gatheringService.getGatheringDetail(token, gatheringId), HttpStatus.OK)
+    }
+
+    @Operation(summary = "모임 리스트 조회")
+    @GetMapping
+    fun getGatheringList(
+            @RequestHeader token: String,
+            @RequestParam place: Place,
+            @RequestParam exerciseType: ExerciseType,
+    ): ResponseEntity<GatheringResponseDto.GatheringListResponse> {
+        return ResponseEntity(
+                gatheringService.getGatheringList(token, place, exerciseType), HttpStatus.OK)
+    }
+
+    @Operation(summary = "참가 가능한 모임 조회")
+    @GetMapping("/possible")
+    fun getPossibleJoinGathering(
+            @RequestHeader token: String,
+    ): ResponseEntity<GatheringResponseDto.GatheringListResponse> {
+        return ResponseEntity(gatheringService.getPossibleJoinGathering(token), HttpStatus.OK)
+    }
+
+    @Operation(summary = "내가 신청한 모임 조회")
+    @GetMapping("/apply")
+    fun getAppliedGathering(
+            @RequestHeader token: String,
+    ): ResponseEntity<GatheringResponseDto.GatheringListResponse> {
+        return ResponseEntity(gatheringService.getAppliedGathering(token), HttpStatus.OK)
+    }
+
+    @Operation(summary = "내가 개설한 모임 조회")
+    @GetMapping("/me")
+    fun getMakedGathering(
+            @RequestHeader token: String,
+    ): ResponseEntity<GatheringResponseDto.GatheringListResponse> {
+        return ResponseEntity(gatheringService.getMakedGathering(token), HttpStatus.OK)
     }
 }

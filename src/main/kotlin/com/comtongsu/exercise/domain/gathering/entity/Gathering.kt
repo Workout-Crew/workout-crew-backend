@@ -52,4 +52,14 @@ class Gathering(
                 maximumNumber = maximumNumber,
                 isLeader = isLeader)
     }
+
+    fun toGatheringContent(leaderNickname: String): GatheringResponseDto.GatheringContent {
+        return GatheringResponseDto.GatheringContent(
+                title = title,
+                description = content,
+                leaderNickname = leaderNickname,
+                place = place,
+                maximumNumber = maximumNumber,
+                startDate = startDate)
+    }
 }

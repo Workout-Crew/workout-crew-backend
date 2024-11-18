@@ -15,4 +15,15 @@ class GatheringResponseDto {
             val maximumNumber: Int?,
             val isLeader: Boolean,
     )
+
+    data class GatheringListResponse(val gatheringList: List<GatheringContent>)
+
+    data class GatheringContent(
+            val title: String?,
+            val description: String?,
+            val leaderNickname: String?,
+            val place: Place?,
+            val maximumNumber: Int?,
+            val startDate: LocalDateTime?
+    )
 }

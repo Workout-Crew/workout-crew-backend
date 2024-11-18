@@ -12,13 +12,13 @@ class AccountGathering(
                 name = "account_id",
                 nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        var account: Account? = null,
+        var account: Account = Account(),
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(
                 name = "gathering_id",
                 nullable = false,
                 foreignKey = ForeignKey(ConstraintMode.NO_CONSTRAINT))
-        var gathering: Gathering? = null,
+        var gathering: Gathering = Gathering(),
         @Column(name = "is_leader") var isLeader: Boolean? = null,
 ) {
     companion object {

@@ -14,7 +14,7 @@ import jakarta.persistence.*
 @Table(name = "account")
 class Account(
         @Id @Column(length = 64) var id: String = "",
-        var nickname: String? = null,
+        var nickname: String = "",
         var height: Int? = null,
         var weight: Int? = null,
         var age: Int? = null,
