@@ -13,10 +13,10 @@ class WebConfig(private val octetStreamReadMsgConverter: OctetStreamReadMsgConve
         registry
                 .addMapping("/**")
                 .allowedOrigins(
-                        "http://localhost:3000",
+                        "http://localhost:3000", // front local
+                        "https://uoscs-capstone.click" // back prod
                 )
                 .allowedMethods("HEAD", "GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                .allowCredentials(true)
                 .allowedHeaders("*")
     }
 
