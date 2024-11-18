@@ -61,6 +61,7 @@ class BatchConfig(
     ): Step {
         return StepBuilder("getSaveStep", jobRepository)
                 .tasklet(saveTasklet, platformTransactionManager)
+                .listener(promotionListener())
                 .build()
     }
 

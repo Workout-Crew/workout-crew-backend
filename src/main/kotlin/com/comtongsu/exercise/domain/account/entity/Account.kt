@@ -9,6 +9,7 @@ import com.comtongsu.exercise.domain.exerciseRecommendation.entity.ExerciseRecom
 import com.comtongsu.exercise.domain.gathering.entity.AccountGathering
 import com.comtongsu.exercise.domain.medal.entity.AccountMedal
 import jakarta.persistence.*
+import java.io.Serializable
 
 @Entity
 @Table(name = "account")
@@ -28,7 +29,7 @@ class Account(
         @OneToMany(mappedBy = "account") var commentList: MutableList<Comment> = mutableListOf(),
         @OneToMany(mappedBy = "account")
         var gatheringList: MutableList<AccountGathering> = mutableListOf(),
-) {
+) : Serializable {
     companion object {
         fun createAccount(id: String): Account {
             return Account(id = id)

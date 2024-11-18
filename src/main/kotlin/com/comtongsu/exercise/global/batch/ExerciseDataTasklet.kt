@@ -5,6 +5,7 @@ import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.domain.account.service.AccountService
 import com.comtongsu.exercise.domain.exerciseLog.dto.response.ExerciseLogResponseDto
 import com.comtongsu.exercise.domain.exerciseLog.service.ExerciseLogService
+import java.io.Serializable
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.scope.context.ChunkContext
 import org.springframework.batch.core.step.tasklet.Tasklet
@@ -20,14 +21,14 @@ class ExerciseDataTasklet(
         val executionContext = chunkContext.stepContext.stepExecution.executionContext
         val accountList = accountService.findAllAccount()
 
-        val exerciseAccountDatList =
+        val exerciseAccountDataList =
                 accountList.map { account ->
                     val accountForRecommendation = accountService.getAccountForRecommendation(account)
                     val exerciseForRecommendation = exerciseLogService.getExerciseForRecommendation(account)
                     ExerciseAccountData(account, accountForRecommendation, exerciseForRecommendation)
                 }
 
-        executionContext.put("exerciseAccountDataList", exerciseAccountDatList)
+        executionContext.put("exerciseAccountDataList", exerciseAccountDataList)
 
         return RepeatStatus.FINISHED
     }
@@ -36,5 +37,5 @@ class ExerciseDataTasklet(
             val account: Account,
             val accountForRecommendation: AccountResponseDto.AccountForRecommendation,
             val exerciseForRecommendation: List<ExerciseLogResponseDto.ExerciseForRecommendation>
-    )
+    ) : Serializable
 }

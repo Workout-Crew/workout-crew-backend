@@ -1,6 +1,7 @@
 package com.comtongsu.exercise.domain.exerciseLog.dto.response
 
 import com.comtongsu.exercise.global.enums.ExerciseType
+import java.io.Serializable
 import java.time.LocalDateTime
 
 class ExerciseLogResponseDto {
@@ -8,7 +9,7 @@ class ExerciseLogResponseDto {
 
     data class TotalExerciseLog(
             val exerciseType: ExerciseType,
-            val day: Int,
+            val day: Long,
             val hour: Int,
     )
 
@@ -30,7 +31,7 @@ class ExerciseLogResponseDto {
             val date: String?,
             val title: String?,
             val contents: List<ExerciseContent>
-    )
+    ) : Serializable
 
     data class ExerciseContent(
             val type: String,

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component
 class SaveTasklet(private val exerciseRecommendationService: ExerciseRecommendationService) :
         Tasklet {
     override fun execute(contribution: StepContribution, chunkContext: ChunkContext): RepeatStatus {
-        val executionContext = chunkContext.stepContext.stepExecution.executionContext
+        val executionContext = chunkContext.stepContext.stepExecution.jobExecution.executionContext
         val exerciseAccountDataList =
                 executionContext["recommendationResultList"]
                         as List<RecommendationTasklet.RecommendationResult>

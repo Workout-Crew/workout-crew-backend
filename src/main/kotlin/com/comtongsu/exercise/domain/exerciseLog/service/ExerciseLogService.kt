@@ -35,7 +35,11 @@ class ExerciseLogService(
             request: ExerciseLogRequestDto.ExerciseLogRequest
     ) {
         val account = kakaoService.getAccount(token)
-        val exerciseTime: Int = Duration.between(request.startTime, request.endTime).toHours().toInt()
+
+        var exerciseTime: Int? = null
+        if (request.startTime != null && request.endTime != null) {
+            exerciseTime = Duration.between(request.startTime, request.endTime).toHours().toInt()
+        }
 
         val exerciseLog =
                 ExerciseLog.createExerciseLog(

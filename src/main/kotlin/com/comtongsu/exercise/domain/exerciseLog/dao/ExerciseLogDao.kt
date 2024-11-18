@@ -17,7 +17,7 @@ class ExerciseLogDao(private val queryFactory: JPAQueryFactory) {
     fun getTotalExerciseLog(account: Account): List<ExerciseLogResponseDto.TotalExerciseLog> {
         return queryFactory
                 .select(
-                        Projections.fields(
+                        Projections.constructor(
                                 ExerciseLogResponseDto.TotalExerciseLog::class.java,
                                 exerciseLog.exerciseType,
                                 exerciseLog.createdDate.count().`as`("day"),

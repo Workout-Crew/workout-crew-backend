@@ -16,10 +16,10 @@ class ExerciseLogRequestDto {
             val exerciseType: ExerciseType,
             @Schema(description = "운동 시작 시간", example = "yyyy-MM-dd'T'HH:mm:ss.SSS")
             @JsonProperty("startTime")
-            val startTime: LocalDateTime,
+            val startTime: LocalDateTime?,
             @Schema(description = "운동 종료 시간", example = "yyyy-MM-dd'T'HH:mm:ss.SSS")
             @JsonProperty("endTime")
-            val endTime: LocalDateTime,
+            val endTime: LocalDateTime?,
             @JsonProperty("description") val description: String?,
             @JsonProperty("intensity") val intensity: Int?,
             @JsonProperty("gatheringId") val gatheringId: Long?,

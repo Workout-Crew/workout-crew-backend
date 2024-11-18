@@ -29,7 +29,7 @@ class MedalDao(private val queryFactory: JPAQueryFactory) {
     // 개설한 모임 수
     fun getGatheringCount(account: Account): Int {
         return queryFactory
-                .selectFrom(gathering)
+                .selectFrom(accountGathering)
                 .where(accountGathering.account.eq(account).and(accountGathering.isLeader.isTrue))
                 .fetch()
                 .size

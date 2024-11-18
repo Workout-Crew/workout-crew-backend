@@ -17,9 +17,7 @@ class AccountRequestDto {
     data class AccountGoalRequest
     @JsonCreator
     constructor(
-            @Schema(description = "운동 목표", example = "[\"GAIN_MUSCLE\", \"LOSE_BODY_FAT\"]")
-            @JsonProperty("goal")
-            val goal: Goal
+            @Schema(description = "운동 목표", example = "GAIN_MUSCLE") @JsonProperty("goal") val goal: Goal
     )
 
     data class AccountNicknameRequest

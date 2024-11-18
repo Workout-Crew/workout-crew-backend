@@ -47,6 +47,8 @@ class GatheringService(
                 gatheringRepository.findByIdOrNull(request.gatheringId)
                         ?: throw GatheringNotFoundException()
 
+        gatheringValidator.isAlreadyJoined(gathering.accountList, account)
+
         accountGatheringRepository.save(
                 AccountGathering.createAccountGathering(account, gathering, false))
     }

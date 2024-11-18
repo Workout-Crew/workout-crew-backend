@@ -13,5 +13,7 @@ class Medal(
         @Column(name = "medal_type", nullable = false)
         var medalType: MedalType? = null,
         var value: Int? = null,
+        @Enumerated(EnumType.STRING)
+        @Column(name = "medal_rank", nullable = false)
         var medalRank: MedalRank = MedalRank.NONE,
 )

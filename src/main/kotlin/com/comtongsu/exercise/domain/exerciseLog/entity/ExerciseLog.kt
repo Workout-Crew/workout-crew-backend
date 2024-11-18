@@ -37,7 +37,7 @@ class ExerciseLog(
     companion object {
         fun createExerciseLog(
                 account: Account,
-                exerciseTime: Int,
+                exerciseTime: Int?,
                 gathering: Gathering?,
                 request: ExerciseLogRequestDto.ExerciseLogRequest,
         ): ExerciseLog {
