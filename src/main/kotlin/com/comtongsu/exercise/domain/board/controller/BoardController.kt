@@ -6,6 +6,7 @@ import com.comtongsu.exercise.domain.board.service.BoardService
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
@@ -16,11 +17,13 @@ import org.springframework.web.multipart.MultipartFile
 class BoardController(private val boardService: BoardService) {
 
     @Operation(summary = "게시글 생성")
-    @PostMapping
+    @PostMapping(
+            consumes = [MediaType.MULTIPART_FORM_DATA_VALUE],
+            produces = [MediaType.APPLICATION_JSON_VALUE])
     fun createBoard(
             @RequestHeader token: String,
             @RequestPart(value = "image") imageList: List<MultipartFile>?,
-            @RequestBody request: BoardRequestDto.BoardRequest
+            @RequestPart(value = "request") request: BoardRequestDto.BoardRequest
     ): ResponseEntity<Unit> {
         boardService.createBoard(token, imageList, request)
 
