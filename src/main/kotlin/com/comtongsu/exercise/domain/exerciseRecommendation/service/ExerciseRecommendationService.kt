@@ -26,8 +26,7 @@ class ExerciseRecommendationService(
                         ?: throw ExerciseRecommendationNotFoundException()
 
         return ExerciseRecommendationResponseDto.ExerciseRecommendationResponse(
-                exerciseRecommendation.exerciseType,
-                exerciseRecommendation.description)
+                exerciseRecommendation.exerciseType, exerciseRecommendation.description)
     }
 
     @Transactional
