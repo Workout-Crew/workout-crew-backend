@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component
 import software.amazon.awssdk.core.SdkBytes
 import software.amazon.awssdk.core.exception.SdkClientException
 import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient
+import java.util.*
 
 
 @Component
@@ -35,9 +36,12 @@ class BedrockService(
             }
 
             val responseBody = JSONObject(response.body().asUtf8String())
+            logger.info(responseBody.toString())
+            val text = JSONObject(responseBody.getJSONArray("content").getJSONObject(0).getString("text"))
+
             return Result(
-                responseBody.getString("type"),
-                responseBody.getString("description")
+                text.getString("type").uppercase(Locale.getDefault()),
+                text.getString("description")
             )
         } catch (e: SdkClientException) {
             throw InvokeErrorException()
@@ -53,19 +57,14 @@ class BedrockService(
 
         return """
             {
-                "modelId": "anthropic.claude-3-haiku-20240307-v1:0",
-                "contentType": "application/json",
-                "accept": "application/json",
-                 "body": {
-                    "anthropic_version": "bedrock-2023-05-31", 
-                    "max_tokens": 2048,
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": [{ "type": "text", "text": "content text" }]
-                        }
-                    ]
-                }
+                "anthropic_version": "bedrock-2023-05-31", 
+                "max_tokens": 2048,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": "$systemPrompt[$accountJsonData, $exerciseJsonData]</example> based on the <example>, do answer.\""
+                    }
+                ]
             }
         """
     }

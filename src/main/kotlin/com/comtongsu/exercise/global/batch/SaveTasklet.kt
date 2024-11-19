@@ -1,6 +1,8 @@
 package com.comtongsu.exercise.global.batch
 
 import com.comtongsu.exercise.domain.exerciseRecommendation.service.ExerciseRecommendationService
+import com.comtongsu.exercise.global.bedrock.exception.EnumNotMatchedException
+import com.comtongsu.exercise.global.enums.ExerciseType
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.StepContribution
 import org.springframework.batch.core.scope.context.ChunkContext
@@ -23,6 +25,9 @@ class SaveTasklet(private val exerciseRecommendationService: ExerciseRecommendat
 
         exerciseAccountDataList.forEach() { recommendationResult ->
             try {
+                if (!enumValues<ExerciseType>().any() { it.name == recommendationResult.type })
+                        throw EnumNotMatchedException()
+
                 exerciseRecommendationService.createExerciseRecommendation(
                         recommendationResult.account,
                         recommendationResult.type,

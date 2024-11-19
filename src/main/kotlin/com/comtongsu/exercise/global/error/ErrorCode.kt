@@ -22,6 +22,7 @@ enum class ErrorCode(val code: String, val message: String, var status: Int) {
 
     // Bedrock
     INVOKE_ERROR("BR01", "Failed to invoke bedrock.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
+    ENUM_NOT_MATCHED("BR02", "Enum is not matched.", HttpStatus.BAD_REQUEST.value()),
 
     // Batch
     EXECUTE_ERROR("BA01", "Failed to execute batch.", HttpStatus.INTERNAL_SERVER_ERROR.value()),
