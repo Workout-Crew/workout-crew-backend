@@ -1,6 +1,7 @@
 package com.comtongsu.exercise.domain.gathering.service
 
 import com.comtongsu.exercise.domain.account.service.KakaoService
+import com.comtongsu.exercise.domain.exerciseLog.repository.ExerciseLogRepository
 import com.comtongsu.exercise.domain.gathering.dao.AccountGatheringDao
 import com.comtongsu.exercise.domain.gathering.dao.GatheringDao
 import com.comtongsu.exercise.domain.gathering.dto.request.GatheringRequestDto
@@ -26,6 +27,7 @@ class GatheringService(
         private val accountGatheringDao: AccountGatheringDao,
         private val accountGatheringRepository: AccountGatheringRepository,
         private val kakaoService: KakaoService,
+        private val exerciseLogRepository: ExerciseLogRepository,
         private val gatheringValidator: GatheringValidator,
 ) {
     @Transactional
@@ -91,7 +93,8 @@ class GatheringService(
                     val leaderNickName =
                             it.accountList.find { it.isLeader == true }?.account?.nickname
                                     ?: throw LeaderNotFoundException()
-                    it.toGatheringContent(leaderNickName)
+                    val currentNumber = it.accountList.size
+                    it.toGatheringContent(leaderNickName, currentNumber)
                 })
     }
 
@@ -104,7 +107,8 @@ class GatheringService(
                     val leaderNickName =
                             it.accountList.find { it.isLeader == true }?.account?.nickname
                                     ?: throw LeaderNotFoundException()
-                    it.toGatheringContent(leaderNickName)
+                    val currentNumber = it.accountList.size
+                    it.toGatheringContent(leaderNickName, currentNumber)
                 })
     }
 
@@ -113,14 +117,21 @@ class GatheringService(
         val accountGatheringList = accountGatheringDao.getMyAccountGathering(account, false)
 
         return GatheringResponseDto.GatheringListResponse(
-                accountGatheringList.map { it.gathering.toGatheringContent(account.nickname) })
+                accountGatheringList.map {
+                    val currentNumber = it.gathering.accountList.size
+                    it.gathering.toGatheringContent(account.nickname, currentNumber)
+                })
     }
 
-    fun getMakedGathering(token: String): GatheringResponseDto.GatheringListResponse {
+    fun getMakedGathering(token: String): GatheringResponseDto.MakedGatheringListResponse {
         val account = kakaoService.getAccount(token)
         val accountGatheringList = accountGatheringDao.getMyAccountGathering(account, true)
 
-        return GatheringResponseDto.GatheringListResponse(
-                accountGatheringList.map { it.gathering.toGatheringContent(account.nickname) })
+        return GatheringResponseDto.MakedGatheringListResponse(
+                accountGatheringList.map {
+                    val currentNumber = it.gathering.accountList.size
+                    val gatheringExerciseLog = exerciseLogRepository.existsByGathering(it.gathering)
+                    it.gathering.toMyGatheringContent(account.nickname, currentNumber, gatheringExerciseLog)
+                })
     }
 }

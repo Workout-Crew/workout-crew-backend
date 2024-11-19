@@ -55,8 +55,8 @@ class GatheringController(private val gatheringService: GatheringService) {
     @GetMapping
     fun getGatheringList(
             @RequestHeader token: String,
-            @RequestParam place: Place,
-            @RequestParam exerciseType: ExerciseType,
+            @RequestParam(required = false) place: Place,
+            @RequestParam(required = false) exerciseType: ExerciseType,
     ): ResponseEntity<GatheringResponseDto.GatheringListResponse> {
         return ResponseEntity(
                 gatheringService.getGatheringList(token, place, exerciseType), HttpStatus.OK)
@@ -82,7 +82,7 @@ class GatheringController(private val gatheringService: GatheringService) {
     @GetMapping("/me")
     fun getMakedGathering(
             @RequestHeader token: String,
-    ): ResponseEntity<GatheringResponseDto.GatheringListResponse> {
+    ): ResponseEntity<GatheringResponseDto.MakedGatheringListResponse> {
         return ResponseEntity(gatheringService.getMakedGathering(token), HttpStatus.OK)
     }
 }

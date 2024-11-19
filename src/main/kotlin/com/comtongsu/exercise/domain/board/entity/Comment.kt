@@ -37,6 +37,7 @@ class Comment(
 
     fun toCommentContent(): BoardResponseDto.CommentContent {
         return BoardResponseDto.CommentContent(
+                commentId = id!!,
                 content = content,
                 writer = account.nickname,
                 createdDate = createdDate,

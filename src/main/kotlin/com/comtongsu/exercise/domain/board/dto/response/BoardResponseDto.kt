@@ -29,6 +29,7 @@ class BoardResponseDto {
     )
 
     data class CommentContent(
+            val commentId: Long?,
             val content: String?,
             val writer: String?,
             val createdDate: LocalDateTime?,

@@ -53,13 +53,33 @@ class Gathering(
                 isLeader = isLeader)
     }
 
-    fun toGatheringContent(leaderNickname: String): GatheringResponseDto.GatheringContent {
+    fun toGatheringContent(
+            leaderNickname: String,
+            currentNumber: Int
+    ): GatheringResponseDto.GatheringContent {
         return GatheringResponseDto.GatheringContent(
+                gatheringId = id!!,
                 title = title,
                 description = content,
                 leaderNickname = leaderNickname,
                 place = place,
-                maximumNumber = maximumNumber,
+                currentNumber = currentNumber,
                 startDate = startDate)
+    }
+
+    fun toMyGatheringContent(
+            leaderNickname: String,
+            currentNumber: Int,
+            gatheringExerciseLog: Boolean
+    ): GatheringResponseDto.MyGatheringContent {
+        return GatheringResponseDto.MyGatheringContent(
+                gatheringId = id!!,
+                title = title,
+                description = content,
+                leaderNickname = leaderNickname,
+                place = place,
+                currentNumber = currentNumber,
+                startDate = startDate,
+                gatheringExerciseLog = gatheringExerciseLog)
     }
 }

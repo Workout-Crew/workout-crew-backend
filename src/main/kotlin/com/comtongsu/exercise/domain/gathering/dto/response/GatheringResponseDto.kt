@@ -19,11 +19,25 @@ class GatheringResponseDto {
     data class GatheringListResponse(val gatheringList: List<GatheringContent>)
 
     data class GatheringContent(
+            val gatheringId: Long,
             val title: String?,
             val description: String?,
             val leaderNickname: String?,
             val place: Place?,
-            val maximumNumber: Int?,
+            val currentNumber: Int?,
             val startDate: LocalDateTime?
+    )
+
+    data class MakedGatheringListResponse(val gatheringList: List<MyGatheringContent>)
+
+    data class MyGatheringContent(
+            val gatheringId: Long,
+            val title: String?,
+            val description: String?,
+            val leaderNickname: String?,
+            val place: Place?,
+            val currentNumber: Int?,
+            val startDate: LocalDateTime?,
+            val gatheringExerciseLog: Boolean?,
     )
 }
