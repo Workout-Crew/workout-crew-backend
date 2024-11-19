@@ -5,6 +5,7 @@ import com.comtongsu.exercise.domain.account.service.KakaoService
 import com.comtongsu.exercise.domain.medal.dao.MedalDao
 import com.comtongsu.exercise.domain.medal.dto.response.MedalResponseDto
 import com.comtongsu.exercise.domain.medal.entity.Medal
+import com.comtongsu.exercise.domain.medal.entity.enums.MedalRank
 import com.comtongsu.exercise.domain.medal.entity.enums.MedalType
 import com.comtongsu.exercise.domain.medal.repository.MedalRepository
 import com.comtongsu.exercise.domain.medal.util.MedalValidator
@@ -25,20 +26,21 @@ class MedalService(
         val account = kakaoService.getAccount(token)
 
         val currentValueList =
-                mutableListOf<Int>(
+                mutableListOf(
                         medalDao.getExerciseLogCount(account),
                         medalDao.getGatheringExerciseLogCount(account),
                         medalDao.getGatheringCount(account),
                         medalDao.getExerciseLogTypeCount(account))
 
         return MedalResponseDto.MedalMissionListResponse(
-                currentValueList.mapIndexed() { idx, currentValue ->
-                    MedalResponseDto.MedalMission(
-                            medalTypeList[idx],
-                            medalDao.getCurrentMedal(currentValue, medalTypeList[idx])?.medalRank,
-                            currentValue,
-                            medalDao.getNextMedal(currentValue, medalTypeList[idx])?.value)
-                })
+                currentValueList
+                        .mapIndexed { idx, currentValue ->
+                            val nextMedal = medalDao.getNextMedal(currentValue, medalTypeList[idx])
+
+                            MedalResponseDto.MedalMission(
+                                    medalTypeList[idx], nextMedal?.medalRank, currentValue, nextMedal?.value)
+                        }
+                        .filter { mission -> mission.medalRank != MedalRank.GOLD })
     }
 
     fun getMedalCount(token: String): MedalResponseDto.MedalCountResponse {
