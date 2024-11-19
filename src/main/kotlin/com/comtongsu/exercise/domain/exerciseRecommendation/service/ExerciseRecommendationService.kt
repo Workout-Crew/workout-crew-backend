@@ -27,7 +27,6 @@ class ExerciseRecommendationService(
 
         return ExerciseRecommendationResponseDto.ExerciseRecommendationResponse(
                 exerciseRecommendation.exerciseType,
-                exerciseRecommendation.intensity,
                 exerciseRecommendation.description)
     }
 
