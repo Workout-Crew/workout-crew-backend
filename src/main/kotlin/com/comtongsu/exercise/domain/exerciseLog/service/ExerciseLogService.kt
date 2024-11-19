@@ -80,4 +80,16 @@ class ExerciseLogService(
 
         return exerciseLogList.map { exerciseLog -> exerciseLog.toExerciseForRecommendation() }
     }
+
+    fun getExerciseLogByMonth(
+            token: String,
+            currentMonth: LocalDate
+    ): ExerciseLogResponseDto.ExerciseLogByMonthListResponse {
+        val account = kakaoService.getAccount(token)
+
+        return ExerciseLogResponseDto.ExerciseLogByMonthListResponse(
+                exerciseLogDao.getExerciseLogByMonth(account, currentMonth).map {
+                    it.toExerciseLogByMonth()
+                })
+    }
 }

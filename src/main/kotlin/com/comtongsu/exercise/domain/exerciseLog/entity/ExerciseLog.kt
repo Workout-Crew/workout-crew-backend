@@ -56,6 +56,7 @@ class ExerciseLog(
 
     fun toExerciseLogByDate(): ExerciseLogResponseDto.ExerciseLogByDate {
         return ExerciseLogResponseDto.ExerciseLogByDate(
+                exerciseLogId = id!!,
                 title = title,
                 exerciseType = exerciseType,
                 description = description,
@@ -78,5 +79,10 @@ class ExerciseLog(
                                         type = "Intensity", content = intensity.toString()),
                                 ExerciseLogResponseDto.ExerciseContent(
                                         type = "Time", content = startTime.toString() + "~" + endTime.toString())))
+    }
+
+    fun toExerciseLogByMonth(): ExerciseLogResponseDto.ExerciseLogByMonth {
+        return ExerciseLogResponseDto.ExerciseLogByMonth(
+                exerciseType = exerciseType, startTime = startTime, endTime = endTime)
     }
 }

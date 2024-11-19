@@ -47,4 +47,14 @@ class ExerciseLogController(private val exerciseLogService: ExerciseLogService) 
         return ResponseEntity(
                 exerciseLogService.getExerciseLogByDate(token, currentDate), HttpStatus.OK)
     }
+
+    @Operation(summary = "월별 운동 기록 조회")
+    @GetMapping("/month/{currentMonth}")
+    fun getExerciseLogByMonth(
+            @RequestHeader token: String,
+            @PathVariable currentMonth: LocalDate
+    ): ResponseEntity<ExerciseLogResponseDto.ExerciseLogByMonthListResponse> {
+        return ResponseEntity(
+                exerciseLogService.getExerciseLogByMonth(token, currentMonth), HttpStatus.OK)
+    }
 }

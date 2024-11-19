@@ -84,8 +84,8 @@ class GatheringService(
 
     fun getGatheringList(
             token: String,
-            place: Place,
-            exerciseType: ExerciseType
+            place: Place?,
+            exerciseType: ExerciseType?
     ): GatheringResponseDto.GatheringListResponse {
         val gatheringList = gatheringDao.getGatheringListByPlaceAndExerciseType(place, exerciseType)
 

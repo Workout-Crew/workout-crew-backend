@@ -20,7 +20,7 @@ class ExerciseLogDao(private val queryFactory: JPAQueryFactory) {
                         Projections.constructor(
                                 ExerciseLogResponseDto.TotalExerciseLog::class.java,
                                 exerciseLog.exerciseType,
-                                exerciseLog.createdDate.count().`as`("day"),
+                                exerciseLog.startTime.count().`as`("day"),
                                 exerciseLog.exerciseTime.sum().`as`("hour")))
                 .from(exerciseLog)
                 .where(exerciseLog.account.eq(account).and(equalCurrentMonth()))
@@ -29,7 +29,10 @@ class ExerciseLogDao(private val queryFactory: JPAQueryFactory) {
     }
 
     fun equalCurrentMonth(): BooleanExpression {
-        return exerciseLog.createdDate.month().eq(LocalDate.now().monthValue)
+        return exerciseLog.startTime
+                .month()
+                .eq(LocalDate.now().monthValue)
+                .and(exerciseLog.startTime.year().eq(LocalDate.now().year))
     }
 
     fun getExerciseLogByDate(account: Account, currentDate: LocalDate): List<ExerciseLog> {
@@ -40,7 +43,7 @@ class ExerciseLogDao(private val queryFactory: JPAQueryFactory) {
     }
 
     fun equalCurrentDate(currentDate: LocalDate): BooleanExpression {
-        return exerciseLog.createdDate.between(
+        return exerciseLog.startTime.between(
                 currentDate.atStartOfDay(), currentDate.plusDays(1).atStartOfDay())
     }
 
@@ -59,7 +62,14 @@ class ExerciseLogDao(private val queryFactory: JPAQueryFactory) {
     }
 
     fun betweenTwoWeeks(): BooleanExpression {
-        return exerciseLog.createdDate.between(
+        return exerciseLog.startTime.between(
                 LocalDate.now().minusDays(14).atStartOfDay(), LocalDate.now().atStartOfDay())
+    }
+
+    fun getExerciseLogByMonth(account: Account, currentMonth: LocalDate): List<ExerciseLog> {
+        return queryFactory
+                .selectFrom(exerciseLog)
+                .where(exerciseLog.account.eq(account).and(equalCurrentMonth()))
+                .fetch()
     }
 }

@@ -16,6 +16,7 @@ class ExerciseLogResponseDto {
     data class ExerciseLogByDateListResponse(val exerciseLogByDateList: List<ExerciseLogByDate>)
 
     data class ExerciseLogByDate(
+            val exerciseLogId: Long,
             val title: String?,
             val exerciseType: ExerciseType?,
             val description: String?,
@@ -24,6 +25,14 @@ class ExerciseLogResponseDto {
             val endTime: LocalDateTime?,
             val imageList: List<String>?,
             val gatheringTitle: String?,
+    )
+
+    data class ExerciseLogByMonthListResponse(val exerciseLogByMonthList: List<ExerciseLogByMonth>)
+
+    data class ExerciseLogByMonth(
+            val exerciseType: ExerciseType?,
+            val startTime: LocalDateTime?,
+            val endTime: LocalDateTime?,
     )
 
     data class ExerciseForRecommendation(

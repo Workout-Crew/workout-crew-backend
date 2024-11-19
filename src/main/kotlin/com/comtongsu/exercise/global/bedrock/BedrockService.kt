@@ -53,15 +53,19 @@ class BedrockService(
 
         return """
             {
-                "anthropic_version": "bedrock-2023-05-31", 
-                "anthropic_beta": ["computer-use-2024-10-22"] 
-                "max_tokens": 2048,
-                "messages": [
-                    {
-                        "role": "user",
-                        "content": "$systemPrompt[$accountJsonData, $exerciseJsonData])"
-                    }
-                ]
+                "modelId": "anthropic.claude-3-haiku-20240307-v1:0",
+                "contentType": "application/json",
+                "accept": "application/json",
+                 "body": {
+                    "anthropic_version": "bedrock-2023-05-31", 
+                    "max_tokens": 2048,
+                    "messages": [
+                        {
+                            "role": "user",
+                            "content": [{ "type": "text", "text": "content text" }]
+                        }
+                    ]
+                }
             }
         """
     }

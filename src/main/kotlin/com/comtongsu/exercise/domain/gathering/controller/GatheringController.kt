@@ -6,6 +6,7 @@ import com.comtongsu.exercise.domain.gathering.entity.enums.Place
 import com.comtongsu.exercise.domain.gathering.service.GatheringService
 import com.comtongsu.exercise.global.enums.ExerciseType
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -55,8 +56,8 @@ class GatheringController(private val gatheringService: GatheringService) {
     @GetMapping
     fun getGatheringList(
             @RequestHeader token: String,
-            @RequestParam(required = false) place: Place,
-            @RequestParam(required = false) exerciseType: ExerciseType,
+            @Parameter(required = false) @RequestParam(required = false) place: Place?,
+            @Parameter(required = false) @RequestParam(required = false) exerciseType: ExerciseType?,
     ): ResponseEntity<GatheringResponseDto.GatheringListResponse> {
         return ResponseEntity(
                 gatheringService.getGatheringList(token, place, exerciseType), HttpStatus.OK)
