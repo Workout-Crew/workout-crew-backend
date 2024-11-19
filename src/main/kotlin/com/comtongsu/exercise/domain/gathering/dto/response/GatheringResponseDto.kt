@@ -14,6 +14,7 @@ class GatheringResponseDto {
             val startDate: LocalDateTime?,
             val maximumNumber: Int?,
             val isLeader: Boolean,
+            val isJoined: Boolean,
     )
 
     data class GatheringListResponse(val gatheringList: List<GatheringContent>)

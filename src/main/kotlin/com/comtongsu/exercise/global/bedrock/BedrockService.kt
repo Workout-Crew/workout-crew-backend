@@ -46,9 +46,9 @@ class BedrockService(
     }
 
     fun getRequestTemplate(accountData: AccountResponseDto.AccountForRecommendation, exerciseData: List<ExerciseLogResponseDto.ExerciseForRecommendation>): String {
-        val accountJsonData = objectMapper.writeValueAsString(accountData)
+        val accountJsonData = objectMapper.writeValueAsString(accountData).escapeJson()
         val exerciseJsonData = exerciseData.joinToString(", ") {
-            objectMapper.writeValueAsString(it)
+            objectMapper.writeValueAsString(it).escapeJson()
         }
 
         return """
@@ -65,6 +65,8 @@ class BedrockService(
             }
         """
     }
+
+    fun String.escapeJson(): String = this.replace("\"", "\\\"")
 
     data class Result(
             val type: String,
