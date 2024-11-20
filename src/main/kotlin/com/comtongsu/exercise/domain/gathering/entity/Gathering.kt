@@ -40,6 +40,7 @@ class Gathering(
 
     fun toGatheringDetailResponse(
             leaderNickname: String,
+            currentNumber: Int,
             isLeader: Boolean,
             isJoined: Boolean
     ): GatheringResponseDto.GatheringDetailResponse {
@@ -50,7 +51,7 @@ class Gathering(
                 place = place,
                 exerciseType = exerciseType,
                 startDate = startDate,
-                maximumNumber = maximumNumber,
+                currentNumber = currentNumber,
                 isLeader = isLeader,
                 isJoined = isJoined)
     }

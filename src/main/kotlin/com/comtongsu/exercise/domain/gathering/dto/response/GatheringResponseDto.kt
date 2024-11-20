@@ -12,7 +12,7 @@ class GatheringResponseDto {
             val place: Place?,
             val exerciseType: ExerciseType?,
             val startDate: LocalDateTime?,
-            val maximumNumber: Int?,
+            val currentNumber: Int?,
             val isLeader: Boolean,
             val isJoined: Boolean,
     )

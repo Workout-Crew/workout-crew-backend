@@ -67,10 +67,11 @@ class GatheringService(
                 accountGatheringRepository.findByGathering(gathering)
 
         val leaderNickname = getLeaderNickname(accountGatheringList)
+        val currentNumber = gathering.accountList.size
         val isLeader = gatheringValidator.isLeader(accountGatheringList, account)
         val isJoined = accountGatheringList.find { it.account == account } != null
 
-        return gathering.toGatheringDetailResponse(leaderNickname, isLeader, isJoined)
+        return gathering.toGatheringDetailResponse(leaderNickname, currentNumber, isLeader, isJoined)
     }
 
     fun getGatheringById(gatheringId: Long): Gathering {
