@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
-import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient
+import software.amazon.awssdk.services.bedrockagentruntime.BedrockAgentRuntimeClient
 
 @Configuration
 class BedrockConfig(
@@ -14,8 +14,8 @@ class BedrockConfig(
         @Value("\${cloud.aws.credentials.secret.key}") private val secretKey: String,
 ) {
     @Bean
-    fun bedrockClient(): BedrockRuntimeClient {
-        return BedrockRuntimeClient.builder()
+    fun bedrockClient(): BedrockAgentRuntimeClient {
+        return BedrockAgentRuntimeClient.builder()
                 .credentialsProvider(
                         StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKey, secretKey)))
                 .region(Region.AP_NORTHEAST_2)

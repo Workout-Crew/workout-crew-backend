@@ -2,6 +2,7 @@ package com.comtongsu.exercise.global.batch
 
 import com.comtongsu.exercise.domain.account.entity.Account
 import com.comtongsu.exercise.global.bedrock.BedrockService
+import com.comtongsu.exercise.global.bedrock.exception.InvokeErrorException
 import java.io.Serializable
 import org.slf4j.LoggerFactory
 import org.springframework.batch.core.StepContribution
@@ -22,16 +23,18 @@ class RecommendationTasklet(private val bedrockService: BedrockService) : Taskle
                 executionContext["exerciseAccountDataList"] as List<ExerciseDataTasklet.ExerciseAccountData>
 
         val recommendationResultList =
-                exerciseAccountDataList.map { exerciseAccountData ->
+                exerciseAccountDataList.mapNotNull { exerciseAccountData ->
                     try {
                         val recommendation =
                                 bedrockService.invokeModel(
                                         exerciseAccountData.accountForRecommendation,
                                         exerciseAccountData.exerciseForRecommendation)
+                                        ?: throw InvokeErrorException()
                         RecommendationResult(
                                 exerciseAccountData.account, recommendation.type, recommendation.description)
                     } catch (e: Exception) {
                         logger.error("RecommendationTasklet Error: ${e.message}")
+                        null
                     }
                 }
 

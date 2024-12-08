@@ -6,6 +6,7 @@ import com.comtongsu.exercise.domain.exerciseRecommendation.dto.response.Exercis
 import com.comtongsu.exercise.domain.exerciseRecommendation.entity.ExerciseRecommendation
 import com.comtongsu.exercise.domain.exerciseRecommendation.exception.ExerciseRecommendationNotFoundException
 import com.comtongsu.exercise.domain.exerciseRecommendation.repository.ExerciseRecommendationRepository
+import com.comtongsu.exercise.domain.exerciseRecommendation.util.ExerciseRecommendationValidator
 import com.comtongsu.exercise.global.enums.ExerciseType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -14,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 class ExerciseRecommendationService(
         private val kakaoService: KakaoService,
-        private val exerciseRecommendationRepository: ExerciseRecommendationRepository
+        private val exerciseRecommendationRepository: ExerciseRecommendationRepository,
+        private val exerciseRecommendationValidator: ExerciseRecommendationValidator,
 ) {
     fun getExerciseRecommendation(
             token: String

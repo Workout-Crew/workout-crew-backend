@@ -32,7 +32,8 @@ jobs:
           echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> .env
           echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}" >> .env
           echo "MODEL_ID=${{ secrets.MODEL_ID }}" >> .env
-          echo "SYSTEM_PROMPT=${{ secrets.SYSTEM_PROMPT }}" >> .env
+          echo "SYSTEM_PROMPT_START=${{ secrets.SYSTEM_PROMPT_START }}" >> .env
+          echo "SYSTEM_PROMPT_END=${{ secrets.SYSTEM_PROMPT_END }}" >> .env
 
       - name: Copy JAR file to EC2
         uses: appleboy/scp-action@v0.1.5

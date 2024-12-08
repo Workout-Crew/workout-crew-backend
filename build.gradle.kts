@@ -50,8 +50,8 @@ dependencies {
     kapt("jakarta.annotation:jakarta.annotation-api")
     kapt("jakarta.persistence:jakarta.persistence-api")
 
-    // Bedrock
-    implementation("software.amazon.awssdk:bedrockruntime:2.29.9")
+    // Bedrockagentruntime
+    implementation("software.amazon.awssdk:bedrockagentruntime:2.29.23")
 
     // Json
     implementation("org.json:json:20231013")

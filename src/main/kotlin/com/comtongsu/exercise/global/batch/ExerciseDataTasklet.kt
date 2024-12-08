@@ -31,6 +31,7 @@ class ExerciseDataTasklet(
                     try {
                         val accountForRecommendation = accountService.getAccountForRecommendation(account)
                         val exerciseForRecommendation = exerciseLogService.getExerciseForRecommendation(account)
+
                         ExerciseAccountData(account, accountForRecommendation, exerciseForRecommendation)
                     } catch (e: Exception) {
                         logger.error("ExerciseDataTasklet Error: ${e.message}")
